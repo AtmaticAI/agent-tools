@@ -90,7 +90,7 @@ export function Sidebar() {
     return href === '/' ? pathname === '/' : pathname.startsWith(href);
   }
 
-  function renderNavItem(item: (typeof pinnedNav)[0], showLabel: boolean) {
+  function renderNavItem(item: (typeof pinnedNav)[0] | (typeof tools)[0], showLabel: boolean) {
     const active = isActive(item.href);
     const isDisabled =
       item.toolId !== null &&
@@ -152,10 +152,7 @@ export function Sidebar() {
               <Braces className="h-4 w-4 text-primary-foreground" />
             </div>
             {showLabel && (
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold">Agent Tools</span>
-                <span className="text-[10px] text-muted-foreground">by atmatic.ai</span>
-              </div>
+              <span className="text-sm font-semibold">Agent Tools</span>
             )}
           </Link>
           {showLabel && (

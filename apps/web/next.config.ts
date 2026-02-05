@@ -1,7 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@agent-tools/core', '@agent-tools/a2a-agent'],
+  output: 'standalone',
+  transpilePackages: ['@agent-tools/core', '@agent-tools/a2a-agent', '@agent-tools/mcp-server'],
   serverExternalPackages: ['sharp'],
   experimental: {
     serverActions: {

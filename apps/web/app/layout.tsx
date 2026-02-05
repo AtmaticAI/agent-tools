@@ -3,7 +3,7 @@ import { Toaster } from 'sonner';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Agent Tools - Deterministic Data Tools',
+  title: 'Agent Tools - Deterministic Data Tools for Agents',
   description:
     'Agent Tools is an agent-driven platform for deterministic data transformation and formatting. Designed for MCP and A2A systems.',
   keywords: ['data transformation', 'JSON', 'CSV', 'PDF', 'MCP', 'A2A', 'agents'],

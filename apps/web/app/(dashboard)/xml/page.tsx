@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy, Download, Trash2, AlertCircle, Code } from 'lucide-react';
+import { Copy, Download, Trash2, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { copyToClipboard, downloadFile } from '@/lib/utils';
 import { FullscreenButton, useFullscreenContainer } from '@/components/ui/fullscreen-button';
@@ -36,7 +36,7 @@ export default function XmlPage() {
   const [convertFrom, setConvertFrom] = useState<'xml' | 'json'>('xml');
   const [convertTo, setConvertTo] = useState<'xml' | 'json'>('json');
   const [queryPath, setQueryPath] = useState('');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleFormat = useCallback(() => {
@@ -106,7 +106,7 @@ export default function XmlPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">XML Studio</h1>
@@ -184,7 +184,7 @@ export default function XmlPage() {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

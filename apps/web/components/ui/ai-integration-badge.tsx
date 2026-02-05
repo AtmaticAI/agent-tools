@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AIIntegrationBadgeProps {
-  tool: 'json' | 'csv' | 'pdf';
+  tool: 'json' | 'csv' | 'pdf' | 'xml' | 'sql' | 'text' | 'regex' | 'math' | 'markdown' | 'image' | 'excel' | 'diff' | 'datetime' | 'crypto' | 'color' | 'archive';
   className?: string;
 }
 

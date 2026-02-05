@@ -91,9 +91,9 @@ export default function HomePage() {
       {/* Hero Section - 35% height with centered search */}
       <div className="flex flex-col items-center justify-center py-16">
         <h1 className="text-4xl font-bold tracking-tight text-center">
-          Deterministic Data Tools
+          Deterministic Tools for AI Agents
         </h1>
-        <p className="mt-3 text-lg text-muted-foreground text-center max-w-xl">
+        <p className="mt-3 text-lg text-muted-foreground text-center max-w-2xl">
           Agent-driven platform for data transformation. Built for MCP and A2A systems.
         </p>
 
@@ -122,7 +122,7 @@ export default function HomePage() {
 
       {/* Tools Grid - scrollable */}
       <div className="flex-1">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filteredTools.length === 0 && (
             <p className="col-span-full text-center text-muted-foreground py-12">
               No tools found matching "{search}"

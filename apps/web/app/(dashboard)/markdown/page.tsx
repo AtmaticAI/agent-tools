@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
   SelectContent,
@@ -34,7 +33,7 @@ export default function MarkdownPage() {
   const [stats, setStats] = useState<Record<string, unknown> | null>(null);
   const [convertFrom, setConvertFrom] = useState<'markdown' | 'html' | 'text'>('markdown');
   const [convertTo, setConvertTo] = useState<'markdown' | 'html' | 'text'>('html');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleConvert = useCallback(() => {
@@ -73,7 +72,7 @@ export default function MarkdownPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Markdown Studio</h1>
@@ -146,7 +145,7 @@ export default function MarkdownPage() {
                 >
                   <Download className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

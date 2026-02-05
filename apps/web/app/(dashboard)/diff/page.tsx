@@ -7,7 +7,6 @@ import { Textarea } from '@/components/ui/textarea';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -33,7 +32,7 @@ export default function DiffPage() {
   const [output, setOutput] = useState('');
   const [stats, setStats] = useState<{ additions: number; deletions: number; unchanged: number } | null>(null);
   const [diffType, setDiffType] = useState<'line' | 'word' | 'char'>('line');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleCompare = useCallback(() => {
@@ -63,7 +62,7 @@ export default function DiffPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Diff & Patch</h1>
@@ -175,7 +174,7 @@ export default function DiffPage() {
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

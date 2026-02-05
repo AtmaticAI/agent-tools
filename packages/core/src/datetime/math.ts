@@ -1,4 +1,4 @@
-import { DateTime, Duration } from 'luxon';
+import { DateTime } from 'luxon';
 import type { DateTimeAddOptions, DateTimeDiffResult } from './types';
 
 export function add(

@@ -1,6 +1,6 @@
 import type { CronParseResult } from './types';
 
-const FIELD_NAMES = ['minute', 'hour', 'day of month', 'month', 'day of week'];
+const _FIELD_NAMES = ['minute', 'hour', 'day of month', 'month', 'day of week'];
 const MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 

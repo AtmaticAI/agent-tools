@@ -4,11 +4,9 @@ import { useState, useCallback } from 'react';
 import * as cryptoTools from '@agent-tools/core/crypto';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -35,7 +33,7 @@ export default function CryptoPage() {
   const [hashAlgo, setHashAlgo] = useState<'md5' | 'sha1' | 'sha256' | 'sha384' | 'sha512'>('sha256');
   const [encFormat, setEncFormat] = useState<'base64' | 'hex' | 'url' | 'html'>('base64');
   const [jwtToken, setJwtToken] = useState('');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleHash = useCallback(() => {
@@ -82,7 +80,7 @@ export default function CryptoPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Crypto & Encoding</h1>
@@ -210,7 +208,7 @@ export default function CryptoPage() {
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

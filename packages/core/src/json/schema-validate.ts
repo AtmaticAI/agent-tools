@@ -86,7 +86,7 @@ export function validateWithSummary(input: string, schema: string): SchemaValida
     };
   }
 
-  const { totalProperties, requiredFields } = countSchemaProperties(schemaObj);
+  const { totalProperties } = countSchemaProperties(schemaObj);
   const validateFn = ajv.compile(schemaObj);
   const valid = validateFn(parsed);
 

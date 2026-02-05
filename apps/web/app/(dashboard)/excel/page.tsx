@@ -34,7 +34,7 @@ export default function ExcelPage() {
   const [fileName, setFileName] = useState('');
   const [exportFormat, setExportFormat] = useState<'json' | 'csv' | 'tsv'>('csv');
   const [rawFile, setRawFile] = useState<ArrayBuffer | null>(null);
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleFileUpload = useCallback(
@@ -78,7 +78,7 @@ export default function ExcelPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Excel Viewer</h1>
@@ -180,7 +180,7 @@ export default function ExcelPage() {
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

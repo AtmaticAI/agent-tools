@@ -66,6 +66,9 @@ importers:
       '@agent-tools/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@agent-tools/mcp-server':
+        specifier: workspace:*
+        version: link:../../packages/mcp-server
       '@radix-ui/react-accordion':
         specifier: ^1.2.0
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.11))(@types/react@19.2.11)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -796,7 +799,6 @@ packages:
   '@img/sharp-darwin-arm64@0.34.5':
     resolution: {integrity: sha512-imtQ3WMJXbMY4fxb/Ndp6HBTNVtWCUI0WdobyheGf5+ad6xX8VIDO8u2xE4qc/fr08CKG/7dDseFtn6M6g/r3w==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
     os: [darwin]
 
   '@img/sharp-darwin-x64@0.33.5':

@@ -17,10 +17,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Upload, Download, Image as ImageIcon, RotateCw } from 'lucide-react';
 import { toast } from 'sonner';
-import { downloadFile } from '@/lib/utils';
 import { FullscreenButton, useFullscreenContainer } from '@/components/ui/fullscreen-button';
 import { AIIntegrationBadge } from '@/components/ui/ai-integration-badge';
 import { ToolEnableToggle } from '@/components/ui/tool-enable-toggle';
@@ -36,7 +34,7 @@ export default function ImagePage() {
   const [resizeHeight, setResizeHeight] = useState('');
   const [convertFormat, setConvertFormat] = useState('webp');
   const [processing, setProcessing] = useState(false);
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleFileUpload = useCallback(
@@ -113,7 +111,7 @@ export default function ImagePage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Image Toolkit</h1>
@@ -192,7 +190,7 @@ export default function ImagePage() {
                   >
                     <Download className="h-4 w-4" />
                   </Button>
-                  <FullscreenButton />
+                  <FullscreenButton targetRef={containerRef} />
                 </div>
               </CardHeader>
               <CardContent>

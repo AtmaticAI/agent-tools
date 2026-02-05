@@ -3,12 +3,10 @@
 import { useState, useCallback } from 'react';
 import * as datetime from '@agent-tools/core/datetime';
 import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -33,7 +31,7 @@ export default function DateTimePage() {
   const [cronExpr, setCronExpr] = useState('');
   const [addDays, setAddDays] = useState('');
   const [addHours, setAddHours] = useState('');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleParse = useCallback(() => {
@@ -93,7 +91,7 @@ export default function DateTimePage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Date/Time Tools</h1>
@@ -239,7 +237,7 @@ export default function DateTimePage() {
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

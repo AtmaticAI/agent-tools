@@ -15,6 +15,7 @@
   "dependencies": {
     "@agent-tools/a2a-agent": "workspace:*",
     "@agent-tools/core": "workspace:*",
+    "@agent-tools/mcp-server": "workspace:*",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.1.0",

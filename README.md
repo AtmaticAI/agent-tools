@@ -2,11 +2,11 @@
 
 **Deterministic data transformation and formatting for AI agents.**
 
-An open source project by [atmatic.ai](https://atmatic.ai)
+An open source project by [atmatic.ai](https://atmatic.ai/tools)
 
 [![CI](https://github.com/AtmaticAI/agent-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/AtmaticAI/agent-tools/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml/badge.svg)](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml)
-[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/@agent-tools/mcp-server.svg)](https://www.npmjs.com/package/@agent-tools/mcp-server)
 [![GitHub release](https://img.shields.io/github/v/release/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/releases)
 [![GitHub issues](https://img.shields.io/github/issues/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/issues)
@@ -39,32 +39,41 @@ Agent Tools provides the authoritative execution layer that agents can trust.
 
 ---
 
+## Live Demo
+
+Try Agent Tools instantly without any installation:
+
+**[https://tools.atmatic.ai](https://tools.atmatic.ai)**
+
+This is a hosted version of the open source code — the same tools, same features, running on managed infrastructure.
+
+---
+
 ## Screenshots
 
-![Agent Tools Homepage](screenshots/homepage.png)
+Browse screenshots of all 16 tools in the [screenshots](./screenshots/) directory:
 
-<details>
-<summary><strong>View all screenshots</strong></summary>
-
-### JSON Studio
-<a href="screenshots/json-studio.png" target="_blank"><img src="screenshots/json-studio.png" alt="JSON Studio" width="800"></a>
-
-### CSV Viewer
-<a href="screenshots/csv-viewer.png" target="_blank"><img src="screenshots/csv-viewer.png" alt="CSV Viewer" width="800"></a>
-
-### PDF Toolkit
-<a href="screenshots/pdf-toolkit.png" target="_blank"><img src="screenshots/pdf-toolkit.png" alt="PDF Toolkit" width="800"></a>
-
-### PDF - Extract Template
-<a href="screenshots/pdf-to-template.png" target="_blank"><img src="screenshots/pdf-to-template.png" alt="PDF Extract Template" width="800"></a>
-
-### PDF - Generate from Template
-<a href="screenshots/pdf-from-template.png" target="_blank"><img src="screenshots/pdf-from-template.png" alt="PDF Generate from Template" width="800"></a>
-
-### Connect (MCP / A2A / REST)
-<a href="screenshots/connect.png" target="_blank"><img src="screenshots/connect.png" alt="Connect - MCP Integration" width="800"></a>
-
-</details>
+- [Homepage](screenshots/homepage.png)
+- [JSON Studio](screenshots/json-studio.png)
+- [CSV Viewer](screenshots/csv-viewer.png)
+- [PDF Toolkit](screenshots/pdf-toolkit.png)
+- [PDF - Extract Template](screenshots/pdf-to-template.png)
+- [PDF - Generate from Template](screenshots/pdf-from-template.png)
+- [XML Studio](screenshots/xml-studio.png)
+- [Excel Viewer](screenshots/excel-viewer.png)
+- [Image Toolkit](screenshots/image-toolkit.png)
+- [Markdown Studio](screenshots/markdown-studio.png)
+- [Archive Manager](screenshots/archive-manager.png)
+- [Regex Tester](screenshots/regex-tester.png)
+- [Diff & Patch](screenshots/diff-patch.png)
+- [SQL Studio](screenshots/sql-studio.png)
+- [Crypto & Encoding](screenshots/crypto-encoding.png)
+- [Date/Time Tools](screenshots/datetime-tools.png)
+- [Text Utilities](screenshots/text-utilities.png)
+- [Math Utilities](screenshots/math-utilities.png)
+- [Color Utilities](screenshots/color-utilities.png)
+- [Connect (Integration Guide)](screenshots/connect.png)
+- [Settings](screenshots/settings.png)
 
 ---
 
@@ -684,7 +693,22 @@ Looking for a hosted, fully managed version of Agent Tools without the hassle of
 
 **[Atmatic.ai](https://atmatic.ai)** offers a managed platform with enterprise-grade features including team collaboration, usage analytics, priority support, and guaranteed uptime — so you can focus on building agents, not infrastructure.
 
-**[Sign up for early access →](https://atmatic.ai)**
+### Open Source vs Managed Platform
+
+| Feature | Open Source | Managed Platform |
+|---------|-------------|------------------|
+| All 16 tool categories | Yes | Yes |
+| MCP / A2A / REST APIs | Yes | Yes |
+| Self-hosted | Yes | No (cloud-hosted) |
+| Automatic updates | Manual | Yes |
+| Team collaboration | - | Yes |
+| Usage analytics | - | Yes |
+| Priority support | Community | Dedicated |
+| SLA & uptime guarantee | - | Yes |
+
+**[See full comparison →](https://atmatic.ai/tools)**
+
+**[Contact us for enterprise pricing →](https://atmatic.ai/#contact-us)**
 
 ---
 
@@ -696,15 +720,18 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
 ## License
 
-MIT License - see [LICENSE](./LICENSE) for details.
+Apache 2.0 License - see [LICENSE](./LICENSE) for details.
 
 ---
 
 ## Links
 
+- **Live Demo**: [tools.atmatic.ai](https://tools.atmatic.ai)
 - **Repository**: [github.com/AtmaticAI/agent-tools](https://github.com/AtmaticAI/agent-tools)
 - **Organization**: [atmatic.ai](https://atmatic.ai)
+- **Managed Platform**: [atmatic.ai/tools](https://atmatic.ai/tools)
 - **Issues**: [github.com/AtmaticAI/agent-tools/issues](https://github.com/AtmaticAI/agent-tools/issues)
+- **Contact**: [atmatic.ai/#contact-us](https://atmatic.ai/#contact-us)
 
 ---
 

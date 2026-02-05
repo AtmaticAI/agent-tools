@@ -9,11 +9,9 @@ import { Switch } from '@/components/ui/switch';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Copy, Trash2, AlertCircle, Search, Replace } from 'lucide-react';
 import { toast } from 'sonner';
@@ -32,7 +30,7 @@ export default function RegexPage() {
   const [caseInsensitive, setCaseInsensitive] = useState(false);
   const [multiline, setMultiline] = useState(false);
   const [globalMatch, setGlobalMatch] = useState(true);
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleTest = useCallback(() => {
@@ -80,7 +78,7 @@ export default function RegexPage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Regex Tester</h1>
@@ -182,7 +180,7 @@ export default function RegexPage() {
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>

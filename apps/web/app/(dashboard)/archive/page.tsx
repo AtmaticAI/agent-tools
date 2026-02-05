@@ -30,7 +30,7 @@ export default function ArchivePage() {
   const [stats, setStats] = useState<Record<string, unknown> | null>(null);
   const [fileName, setFileName] = useState('');
   const [rawBase64, setRawBase64] = useState('');
-  const { containerRef, contentRef } = useFullscreenContainer();
+  const { containerRef } = useFullscreenContainer();
   const setSidebarCollapsed = useUIStore((s) => s.setSidebarCollapsed);
 
   const handleFileUpload = useCallback(
@@ -90,7 +90,7 @@ export default function ArchivePage() {
 
   return (
     <main className="flex-1 overflow-auto p-6" ref={containerRef}>
-      <div ref={contentRef}>
+      <div>
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Archive Manager</h1>
@@ -157,7 +157,7 @@ export default function ArchivePage() {
                   <Download className="mr-1 h-4 w-4" />
                   Extract All
                 </Button>
-                <FullscreenButton />
+                <FullscreenButton targetRef={containerRef} />
               </div>
             </CardHeader>
             <CardContent>
