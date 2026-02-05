@@ -1,0 +1,68 @@
+name: Bug Report
+description: Report a bug in Agent Tools
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the sections below.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What you expected to happen.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Web UI
+        - MCP Server
+        - A2A Agent
+        - Core Library
+        - Docker / Kubernetes
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of Agent Tools are you using?
+      placeholder: e.g., 1.0.0
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Any relevant environment details.
+      placeholder: |
+        - OS: macOS 15
+        - Node.js: 20.x
+        - Browser: Chrome 130

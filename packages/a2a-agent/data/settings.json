@@ -1,0 +1,19 @@
+{
+  "enabled": {
+    "json": true,
+    "crypto": true,
+    "sql": true,
+    "regex": true,
+    "diff": true,
+    "csv": true,
+    "datetime": true,
+    "markdown": true,
+    "xml": true,
+    "pdf": true,
+    "excel": true,
+    "image": true,
+    "archive": true
+  },
+  "version": 1,
+  "updatedAt": "2026-02-04T19:16:34.124Z"
+}

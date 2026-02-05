@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updatedAt": "2026-02-05T05:02:15.030Z",
+  "enabled": {
+    "json": true,
+    "crypto": true,
+    "sql": true,
+    "regex": true,
+    "diff": true,
+    "csv": true,
+    "datetime": true,
+    "markdown": true,
+    "xml": true,
+    "pdf": true,
+    "excel": true,
+    "image": true,
+    "archive": true,
+    "text": true,
+    "math": true,
+    "color": true
+  }
+}

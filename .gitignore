@@ -1,0 +1,54 @@
+# Dependencies
+node_modules
+.pnpm-store
+
+# Build outputs
+dist
+.next
+.turbo
+out
+build
+
+# Cache
+*.tsbuildinfo
+.eslintcache
+.prettiercache
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage
+.nyc_output
+playwright-report
+test-results
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Runtime data
+data/settings.json
+
+# Temp
+tmp
+temp
+*.tmp
+
+# Local scripts
+run-dev.sh
+
+# OS
+Thumbs.db

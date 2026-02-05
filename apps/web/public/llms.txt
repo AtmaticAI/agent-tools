@@ -1,0 +1,268 @@
+# Agent Tools - LLM Agent Guide
+
+## Overview
+
+Agent Tools is an agent-driven data utility platform that provides deterministic tools for transforming, formatting, and inspecting structured data. Designed for MCP and A2A systems, Agent Tools ensures that when agents act, the resulting data is correct, inspectable, and production-ready.
+
+**Key Insight**: LLMs think. Agent Tools executes.
+
+While LLMs excel at reasoning and understanding intent, they struggle with large files, strict correctness, binary formats, and repeatability. Agent Tools provides the authoritative execution layer that agents can trust.
+
+## Repository Structure
+
+```
+agent-tools/
+├── apps/web/                 # Next.js 15 web application
+│   ├── app/                  # App router pages and API routes
+│   ├── components/           # React components (Shadcn/ui)
+│   └── lib/                  # Utilities and hooks
+├── packages/
+│   ├── core/                 # Shared business logic (16 modules)
+│   ├── mcp-server/           # MCP server with stdio, SSE, HTTP transports (100 tools)
+│   └── a2a-agent/            # A2A protocol implementation (16 skills)
+├── docker/                   # Docker configurations
+├── k8s/                      # Kubernetes manifests
+└── terraform/                # AWS ECS infrastructure
+```
+
+## Core Packages
+
+### @agent-tools/core
+
+The core library contains all data transformation logic:
+
+**JSON Operations** (`packages/core/src/json/`):
+- `format(input, options)` - Pretty-print with configurable indent
+- `minify(input)` - Remove whitespace
+- `validate(input, schema?)` - Validate against JSON Schema
+- `query(input, path, dialect)` - Query with JSONPath or JMESPath
+- `convert(input, {from, to})` - Convert between JSON, YAML, TOML
+- `diff(a, b)` - Compare two JSON documents
+- `getStats(input)` - Analyze structure and statistics
+
+**CSV Operations** (`packages/core/src/csv/`):
+- `parse(input, options)` - Parse CSV to structured data
+- `filter(input, filters)` - Filter rows by conditions
+- `transform(input, options)` - Select, rename, derive columns
+- `exportData(input, {format})` - Export to CSV, TSV, JSON, JSONL
+- `getStats(input)` - Column statistics
+
+**PDF Operations** (`packages/core/src/pdf/`):
+- `merge(files, options)` - Combine multiple PDFs
+- `split(file, {ranges})` - Split by page ranges
+- `extractPages(file, pageRange)` - Extract specific pages
+- `extractText(file, options)` - Extract text content
+- `getInfo(file)` / `setMetadata(file, metadata)` - Metadata operations
+- `rotate(file, options)` - Rotate pages
+- `compress(file, options)` - Reduce file size
+- `extractTemplate(file, name)` - Extract reusable JSON template from PDF (detects `{{placeholder}}` fields)
+- `generateFromTemplate(template, data)` - Generate PDF from template JSON with data replacement
+
+### @agent-tools/mcp-server
+
+MCP server implementation with three transport options:
+
+**stdio** (for Claude Desktop):
+```json
+{
+  "mcpServers": {
+    "agent-tools": {
+      "command": "npx",
+      "args": ["@agent-tools/mcp-server"]
+    }
+  }
+}
+```
+
+**HTTP Streaming** (for scalable deployments):
+```bash
+npx @agent-tools/mcp-server --transport http --port 3001
+```
+
+**SSE** (for web clients):
+```bash
+npx @agent-tools/mcp-server --transport sse --port 3001
+```
+
+**Available MCP Tools (100 tools across 16 categories)**:
+- **JSON**: `agent_tools_json_format`, `agent_tools_json_validate`, `agent_tools_json_query`, `agent_tools_json_convert`, `agent_tools_json_diff`, `agent_tools_json_minify`, `agent_tools_json_stats`, `agent_tools_json_schema_validate`
+- **CSV**: `agent_tools_csv_parse`, `agent_tools_csv_to_json`, `agent_tools_csv_filter`, `agent_tools_csv_stats`, `agent_tools_csv_transform`, `agent_tools_csv_export`
+- **PDF**: `agent_tools_pdf_merge`, `agent_tools_pdf_split`, `agent_tools_pdf_extract_text`, `agent_tools_pdf_metadata`, `agent_tools_pdf_rotate`, `agent_tools_pdf_compress`, `agent_tools_pdf_to_template`, `agent_tools_pdf_from_template`, `agent_tools_pdf_extract_pages`, `agent_tools_pdf_page_count`, `agent_tools_pdf_set_metadata`
+- **XML**: `agent_tools_xml_parse`, `agent_tools_xml_format`, `agent_tools_xml_minify`, `agent_tools_xml_validate`, `agent_tools_xml_query`, `agent_tools_xml_convert`, `agent_tools_xml_stats`
+- **Excel**: `agent_tools_excel_parse`, `agent_tools_excel_convert`, `agent_tools_excel_stats`, `agent_tools_excel_sheets`, `agent_tools_excel_create`
+- **Image**: `agent_tools_image_resize`, `agent_tools_image_crop`, `agent_tools_image_convert`, `agent_tools_image_compress`, `agent_tools_image_rotate`, `agent_tools_image_metadata`, `agent_tools_image_grayscale`
+- **Markdown**: `agent_tools_markdown_convert`, `agent_tools_markdown_toc`, `agent_tools_markdown_links`, `agent_tools_markdown_frontmatter`, `agent_tools_markdown_stats`
+- **Archive**: `agent_tools_archive_create`, `agent_tools_archive_extract`, `agent_tools_archive_list`, `agent_tools_archive_stats`
+- **Regex**: `agent_tools_regex_test`, `agent_tools_regex_replace`, `agent_tools_regex_extract`, `agent_tools_regex_validate`
+- **Diff**: `agent_tools_diff_compare`, `agent_tools_diff_unified`, `agent_tools_diff_apply`
+- **SQL**: `agent_tools_sql_format`, `agent_tools_sql_minify`, `agent_tools_sql_parse`, `agent_tools_sql_validate`, `agent_tools_sql_convert`, `agent_tools_sql_stats`
+- **Crypto**: `agent_tools_crypto_hash`, `agent_tools_crypto_hmac`, `agent_tools_crypto_encode`, `agent_tools_crypto_decode`, `agent_tools_crypto_jwt_decode`, `agent_tools_crypto_uuid`, `agent_tools_crypto_checksum`
+- **DateTime**: `agent_tools_datetime_parse`, `agent_tools_datetime_format`, `agent_tools_datetime_now`, `agent_tools_datetime_add`, `agent_tools_datetime_subtract`, `agent_tools_datetime_diff`, `agent_tools_datetime_timezone_convert`, `agent_tools_datetime_cron`, `agent_tools_datetime_timezones`
+- **Text**: `agent_tools_text_case`, `agent_tools_text_slugify`, `agent_tools_text_lorem`, `agent_tools_text_similarity`, `agent_tools_text_stats`, `agent_tools_text_template`, `agent_tools_text_truncate`
+- **Math**: `agent_tools_math_base`, `agent_tools_math_convert`, `agent_tools_math_format`, `agent_tools_math_percentage`, `agent_tools_math_statistics`
+- **Color**: `agent_tools_color_parse`, `agent_tools_color_convert`, `agent_tools_color_contrast`, `agent_tools_color_blend`, `agent_tools_color_palette`, `agent_tools_color_name`
+
+### @agent-tools/a2a-agent
+
+A2A (Agent-to-Agent) protocol implementation:
+
+**Agent Card** (available at `/.well-known/agent.json`):
+```json
+{
+  "name": "Agent Tools Data Agent",
+  "skills": [
+    { "id": "json-operations", "name": "JSON Processing" },
+    { "id": "csv-operations", "name": "CSV Processing" },
+    { "id": "pdf-operations", "name": "PDF Processing" },
+    { "id": "xml-operations", "name": "XML Processing" },
+    { "id": "excel-operations", "name": "Excel Processing" },
+    { "id": "image-operations", "name": "Image Processing" },
+    { "id": "markdown-operations", "name": "Markdown Processing" },
+    { "id": "archive-operations", "name": "Archive Management" },
+    { "id": "regex-operations", "name": "Regex Operations" },
+    { "id": "diff-operations", "name": "Diff & Patch" },
+    { "id": "sql-operations", "name": "SQL Processing" },
+    { "id": "crypto-operations", "name": "Crypto & Encoding" },
+    { "id": "datetime-operations", "name": "Date/Time Operations" },
+    { "id": "text-operations", "name": "Text Processing" },
+    { "id": "math-operations", "name": "Math Operations" },
+    { "id": "color-operations", "name": "Color Operations" }
+  ]
+}
+```
+
+**Task Lifecycle**:
+1. `POST /a2a/tasks` - Create task with skill and input
+2. `GET /a2a/tasks/:id` - Poll for result
+3. Task states: submitted → working → completed/failed
+
+## Integration Patterns
+
+### Using MCP Tools
+
+When integrated via MCP, call tools like:
+
+```
+agent_tools_json_format({ input: '{"a":1}', indent: 2, sortKeys: true })
+agent_tools_csv_parse({ input: 'name,age\nJohn,30', header: true })
+agent_tools_pdf_merge({ files: [base64_pdf_1, base64_pdf_2] })
+```
+
+### Using A2A Protocol
+
+For agent-to-agent communication:
+
+```json
+POST /a2a/tasks
+{
+  "skill": "json-operations",
+  "input": {
+    "action": "format",
+    "data": "{\"a\":1}",
+    "options": { "indent": 2 }
+  }
+}
+```
+
+### Direct API Calls
+
+REST endpoints are available:
+- `POST /api/json/format`
+- `POST /api/csv/parse`
+- `POST /api/pdf/merge`
+- etc.
+
+## Code Modification Guidelines
+
+When modifying Agent Tools:
+
+1. **Core Logic**: Changes to transformation logic go in `packages/core/src/`
+2. **MCP Tools**: Tool definitions in `packages/mcp-server/src/tools/`
+3. **A2A Skills**: Skill handlers in `packages/a2a-agent/src/skills/`
+4. **API Routes**: Next.js routes in `apps/web/app/api/`
+5. **UI Components**: React components in `apps/web/components/`
+
+**Key Patterns**:
+- All operations are stateless and deterministic
+- PDF operations run server-side
+- Input/output for PDF tools is base64 encoded
+- Errors are returned with `isError: true` in MCP responses
+
+## Development Commands
+
+```bash
+pnpm install          # Install dependencies
+pnpm dev              # Start all services
+pnpm build            # Build all packages
+pnpm test             # Run tests
+pnpm lint             # Lint code
+```
+
+## Technology Stack
+
+- **Runtime**: Node.js 20+
+- **Package Manager**: pnpm 9+
+- **Build System**: Turborepo
+- **Framework**: Next.js 15 (targeting 16)
+- **UI**: React 19, Tailwind CSS, Shadcn/ui
+- **PDF**: pdf-lib (manipulation), pdf-parse (extraction)
+- **JSON**: ajv (validation), jsonpath-plus, jmespath
+- **CSV**: papaparse
+
+## When to Use Agent Tools
+
+Use Agent Tools's tools when you need:
+- **Guaranteed correctness**: Schema validation, exact transformations
+- **Large file handling**: Files that exceed LLM context limits
+- **Binary operations**: PDF manipulation
+- **Auditable results**: Deterministic, repeatable outputs
+- **Enterprise compliance**: Air-gapped, no data leakage
+
+## Common Tasks
+
+**Format and validate JSON**:
+```typescript
+import { json } from '@agent-tools/core';
+
+const formatted = json.format(input, { indent: 2 });
+const validation = json.validate(formatted, schema);
+```
+
+**Parse and filter CSV**:
+```typescript
+import { csv } from '@agent-tools/core';
+
+const parsed = csv.parse(input);
+const filtered = csv.filterData(parsed.data, [
+  { column: 'status', operator: 'eq', value: 'active' }
+]);
+```
+
+**Merge PDFs**:
+```typescript
+import { pdf } from '@agent-tools/core';
+
+const merged = await pdf.merge([buffer1, buffer2], {
+  pageRanges: ['1-3', 'all']
+});
+```
+
+**Extract and use PDF templates**:
+```typescript
+import { pdf } from '@agent-tools/core';
+
+// Extract a reusable template from a PDF with {{placeholder}} fields
+const template = await pdf.extractTemplate(pdfBuffer, 'Invoice Template');
+
+// Generate a new PDF by filling in the template with data
+const newPdf = await pdf.generateFromTemplate(template, {
+  invoice_number: 'INV-2025-001',
+  customer_name: 'Acme Corp',
+  amount: '1,500.00'
+});
+```
+
+---
+
+*Agent Tools: Deterministic tools for the agentic era.*
+*Powered by atmatic.ai*
