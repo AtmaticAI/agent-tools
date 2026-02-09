@@ -12,6 +12,14 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - MCP_PORT=3001
+      # OpenTelemetry (uncomment to enable tracing)
+      # - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+      # - OTEL_SERVICE_NAME=agent-tools-web
+      # - OTEL_EXPORTER_OTLP_HEADERS=
+      # Logging
+      # - LOG_LEVEL=info
+      # Google Analytics (uncomment to enable)
+      # - NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
     volumes:
       - ./data:/app/data
     healthcheck:

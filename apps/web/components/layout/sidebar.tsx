@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { analytics } from '@/lib/analytics';
 import { useUIStore } from '@/lib/stores/ui-store';
 import { Button } from '@/components/ui/button';
 import {
@@ -106,6 +107,7 @@ export function Sidebar() {
     const link = (
       <Link
         href={item.href}
+        onClick={() => analytics.navClicked(item.href)}
         className={cn(
           'flex items-center rounded-lg text-sm font-medium transition-colors',
           showLabel ? 'gap-3 px-3 py-2' : 'justify-center p-2',

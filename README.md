@@ -518,6 +518,14 @@ services:
     ports:
       - "3000:3000"  # Web UI
       - "3001:3001"  # MCP HTTP Streaming
+    environment:
+      # OpenTelemetry (optional — tracing disabled when unset)
+      # - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:4318
+      # - OTEL_SERVICE_NAME=agent-tools-web
+      # Structured logging
+      # - LOG_LEVEL=info
+      # Google Analytics (optional — disabled when unset)
+      # - NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
     volumes:
       - ./data:/app/data  # Persist runtime settings
 ```
@@ -579,6 +587,89 @@ terraform apply
 | `MCP_TRANSPORT` | `stdio` | MCP transport: `stdio`, `sse`, `http` |
 
 Tool categories (JSON, CSV, PDF, XML, Excel, Image, Markdown, Archive, Regex, Diff, SQL, Crypto, DateTime, Text, Math, Color, Physics, Structural) are configured at runtime via the **Settings** page (`/settings`). All tools are enabled by default. Settings are persisted to `data/settings.json`.
+
+### Observability
+
+Agent Tools includes built-in support for OpenTelemetry tracing, structured logging, and Google Analytics. All three are **opt-in** — they activate only when the corresponding environment variables are set. With no variables configured, there is zero overhead.
+
+#### OpenTelemetry (Distributed Tracing)
+
+Captures traces for every chat API request, including LLM calls, tool executions, and user/assistant messages as span events.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `OTEL_EXPORTER_OTLP_ENDPOINT` | *(unset — tracing disabled)* | OTLP HTTP endpoint (e.g. `http://localhost:4318`). Setting this enables tracing. |
+| `OTEL_SERVICE_NAME` | `agent-tools-web` | Service name reported in traces |
+| `OTEL_EXPORTER_OTLP_HEADERS` | *(empty)* | Comma-separated `key=value` headers for authenticated backends (e.g. `Authorization=Bearer token`) |
+
+**Quick start with Jaeger:**
+
+```bash
+# 1. Start Jaeger (all-in-one)
+docker run -d --name jaeger \
+  -p 16686:16686 \
+  -p 4318:4318 \
+  -e COLLECTOR_OTLP_ENABLED=true \
+  jaegertracing/all-in-one:1.54
+
+# 2. Start Agent Tools with tracing enabled
+OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 pnpm dev
+
+# 3. Send a chat message, then open http://localhost:16686
+#    Look for service "agent-tools-web" to see traces with:
+#    - chat.request (parent span)
+#      - llm.call (LLM API call with token usage)
+#      - tool.execute.* (one span per tool invocation)
+#    - chat.message events (user + assistant messages)
+```
+
+**Works with any OTLP-compatible backend:** Jaeger, Grafana Tempo, SigNoz, Honeycomb, Datadog, New Relic, etc.
+
+#### Structured Logging
+
+JSON-formatted server logs with automatic OpenTelemetry trace correlation. Every chat message (user and assistant) is logged as a structured event.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `LOG_LEVEL` | `info` | Log level: `trace`, `debug`, `info`, `warn`, `error`, `fatal` |
+
+Log entries include `traceId` and `spanId` when OTel tracing is active, enabling direct correlation between logs and traces. In development, logs are pretty-printed for readability.
+
+**Example log output:**
+
+```json
+{
+  "level": "info",
+  "module": "chat",
+  "traceId": "abc123...",
+  "spanId": "def456...",
+  "event": "chat.user_message",
+  "sessionId": "session-uuid",
+  "role": "user",
+  "content": "Format this JSON: {...}",
+  "model": "microsoft/Phi-4-mini-instruct",
+  "timestamp": "2025-01-15T10:30:00.000Z"
+}
+```
+
+#### Google Analytics (Client-Side)
+
+Page views and custom event tracking for the web UI.
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NEXT_PUBLIC_GA_ID` | *(unset — analytics disabled)* | Google Analytics 4 measurement ID (e.g. `G-XXXXXXXXXX`) |
+
+**Tracked events:**
+
+| Event | Category | Trigger |
+|-------|----------|---------|
+| `chat_message_sent` | chat | User sends a chat message |
+| `chat_model_changed` | chat | User switches LLM model |
+| `tool_toggled` | tools | User enables/disables a tool category |
+| `tool_used` | tools | A tool is executed via chat |
+| `nav_clicked` | navigation | User clicks a sidebar link |
+| `button_clicked` | ui | User clicks a UI button |
 
 ---
 
