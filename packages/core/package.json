@@ -91,6 +91,16 @@
       "require": "./dist/color/index.js",
       "types": "./dist/color/index.d.ts"
     },
+    "./physics": {
+      "import": "./dist/physics/index.mjs",
+      "require": "./dist/physics/index.js",
+      "types": "./dist/physics/index.d.ts"
+    },
+    "./structural": {
+      "import": "./dist/structural/index.mjs",
+      "require": "./dist/structural/index.js",
+      "types": "./dist/structural/index.d.ts"
+    },
     "./settings": {
       "import": "./dist/settings/index.mjs",
       "require": "./dist/settings/index.js",

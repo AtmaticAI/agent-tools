@@ -7,7 +7,8 @@ An open source project by [atmatic.ai](https://atmatic.ai/tools)
 [![CI](https://github.com/AtmaticAI/agent-tools/actions/workflows/ci.yml/badge.svg)](https://github.com/AtmaticAI/agent-tools/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml/badge.svg)](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml)
 [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![npm](https://img.shields.io/npm/v/@agent-tools/mcp-server.svg)](https://www.npmjs.com/package/@agent-tools/mcp-server)
+[![npm](https://img.shields.io/npm/v/@atmaticai/agent-tools.svg)](https://www.npmjs.com/package/@atmaticai/agent-tools)
+[![npm core](https://img.shields.io/npm/v/@atmaticai/agent-tools-core.svg?label=npm%20core)](https://www.npmjs.com/package/@atmaticai/agent-tools-core)
 [![GitHub release](https://img.shields.io/github/v/release/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/releases)
 [![GitHub issues](https://img.shields.io/github/issues/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/pulls)
@@ -51,7 +52,7 @@ This is a hosted version of the open source code — the same tools, same featur
 
 ## Screenshots
 
-Browse screenshots of all 16 tools in the [screenshots](./screenshots/) directory:
+Browse screenshots of all 18 tools in the [screenshots](./screenshots/) directory:
 
 - [Homepage](screenshots/homepage.png)
 - [JSON Studio](screenshots/json-studio.png)
@@ -199,6 +200,28 @@ Browse screenshots of all 16 tools in the [screenshots](./screenshots/) director
 - Generate color palettes (complementary, triadic, analogous)
 - Get nearest named color
 
+### Physics Calculator
+- Physical constants lookup by key or category
+- Kinematics equations, projectile motion, free fall
+- Force, energy, momentum, gravity, orbital mechanics
+- Ohm's law, resistors, Coulomb's law, capacitors, RC circuits
+- Wave equation, Snell's law, Doppler effect, thin lens
+- Ideal gas law, heat transfer, Carnot efficiency
+- Lorentz factor, time dilation, mass-energy equivalence
+- Physics unit conversions (force, energy, power, pressure, speed)
+
+### Structural Engineering
+- Normal stress, shear stress, strain, Young's modulus, factor of safety
+- Hoop stress for thin-walled pressure vessels
+- Simply supported and cantilever beam analysis (point, uniform, triangular loads)
+- Euler column buckling with various end conditions
+- Slenderness ratio classification (short/intermediate/long)
+- Cross-section properties: rectangle, circle, hollow circle, I-beam
+- Terzaghi bearing capacity for strip, square, and circular foundations
+- Rankine lateral earth pressure (active, passive, at-rest)
+- Elastic settlement calculations
+- Structural material database (11 materials: steel, aluminum, concrete, timber)
+
 ---
 
 ## Agent Integration
@@ -220,13 +243,13 @@ Expose tools to Claude Desktop, Claude Code, or any MCP-compatible client.
   "mcpServers": {
     "agent-tools": {
       "command": "npx",
-      "args": ["@agent-tools/mcp-server"]
+      "args": ["@atmaticai/agent-tools"]
     }
   }
 }
 ```
 
-**Available MCP Tools (100):**
+**Available MCP Tools (136):**
 
 <details>
 <summary><strong>View all MCP tools</strong></summary>
@@ -339,6 +362,44 @@ Expose tools to Claude Desktop, Claude Code, or any MCP-compatible client.
 | `agent_tools_color_blend` | Blend colors |
 | `agent_tools_color_palette` | Generate palettes |
 | `agent_tools_color_name` | Get color name |
+| **Physics** | |
+| `agent_tools_physics_constants` | Look up physical constants |
+| `agent_tools_physics_kinematics` | Solve kinematics equations |
+| `agent_tools_physics_projectile` | Calculate projectile motion |
+| `agent_tools_physics_force` | Calculate force (F = ma) |
+| `agent_tools_physics_energy` | Calculate kinetic/potential energy |
+| `agent_tools_physics_gravity` | Gravitational force |
+| `agent_tools_physics_orbital` | Orbital velocity and escape velocity |
+| `agent_tools_physics_ohms_law` | Ohm's law solver |
+| `agent_tools_physics_resistors` | Resistors in series/parallel |
+| `agent_tools_physics_wave` | Solve wave equation |
+| `agent_tools_physics_snell` | Snell's law for refraction |
+| `agent_tools_physics_ideal_gas` | Ideal gas law solver |
+| `agent_tools_physics_carnot` | Carnot efficiency |
+| `agent_tools_physics_lorentz` | Lorentz factor |
+| `agent_tools_physics_time_dilation` | Relativistic time dilation |
+| `agent_tools_physics_mass_energy` | Mass-energy equivalence |
+| `agent_tools_physics_unit_convert` | Convert physics units |
+| **Structural Engineering** | |
+| `agent_tools_structural_normal_stress` | Normal stress (σ = F/A) |
+| `agent_tools_structural_shear_stress` | Shear stress (τ = V/A) |
+| `agent_tools_structural_strain` | Strain (ε = ΔL/L) |
+| `agent_tools_structural_youngs_modulus` | Young's modulus (E = σ/ε) |
+| `agent_tools_structural_factor_of_safety` | Factor of safety |
+| `agent_tools_structural_hoop_stress` | Hoop stress for pressure vessels |
+| `agent_tools_structural_simply_supported_beam` | Simply supported beam analysis |
+| `agent_tools_structural_cantilever_beam` | Cantilever beam analysis |
+| `agent_tools_structural_euler_buckling` | Euler critical buckling load |
+| `agent_tools_structural_slenderness_ratio` | Column slenderness classification |
+| `agent_tools_structural_rectangle_section` | Rectangle section properties |
+| `agent_tools_structural_circular_section` | Circular section properties |
+| `agent_tools_structural_hollow_circular_section` | Hollow circular section properties |
+| `agent_tools_structural_i_beam_section` | I-beam section properties |
+| `agent_tools_structural_terzaghi_bearing` | Terzaghi bearing capacity |
+| `agent_tools_structural_lateral_earth_pressure` | Rankine earth pressure |
+| `agent_tools_structural_settlement` | Elastic settlement |
+| `agent_tools_structural_get_material` | Look up material properties |
+| `agent_tools_structural_list_materials` | List materials by category |
 
 </details>
 
@@ -390,11 +451,26 @@ curl -X POST /api/regex/test \
   -d '{"input": "hello world", "pattern": "\\w+", "flags": "g"}'
 ```
 
-**Available REST endpoints:** `/api/{tool}/{action}` where tool is one of: `json`, `csv`, `pdf`, `xml`, `excel`, `image`, `markdown`, `archive`, `regex`, `diff`, `sql`, `crypto`, `datetime`, `text`, `math`, `color`.
+**Available REST endpoints:** `/api/{tool}/{action}` where tool is one of: `json`, `csv`, `pdf`, `xml`, `excel`, `image`, `markdown`, `archive`, `regex`, `diff`, `sql`, `crypto`, `datetime`, `text`, `math`, `color`, `physics`, `structural`.
 
 ---
 
 ## Installation
+
+### npm
+
+Agent Tools is published on npm under two packages:
+
+- **[`@atmaticai/agent-tools`](https://www.npmjs.com/package/@atmaticai/agent-tools)** — MCP server with all 136+ tools (run as CLI or integrate with Claude Desktop)
+- **[`@atmaticai/agent-tools-core`](https://www.npmjs.com/package/@atmaticai/agent-tools-core)** — Core library with all 18 tool modules (use programmatically in your own projects)
+
+```bash
+# MCP server (CLI + all tools)
+npm install @atmaticai/agent-tools
+
+# Core library only (programmatic usage)
+npm install @atmaticai/agent-tools-core
+```
 
 ### Prerequisites
 
@@ -502,7 +578,7 @@ terraform apply
 | `MCP_PORT` | `3001` | MCP HTTP streaming port |
 | `MCP_TRANSPORT` | `stdio` | MCP transport: `stdio`, `sse`, `http` |
 
-Tool categories (JSON, CSV, PDF, XML, Excel, Image, Markdown, Archive, Regex, Diff, SQL, Crypto, DateTime) are configured at runtime via the **Settings** page (`/settings`). All tools are enabled by default. Settings are persisted to `data/settings.json`.
+Tool categories (JSON, CSV, PDF, XML, Excel, Image, Markdown, Archive, Regex, Diff, SQL, Crypto, DateTime, Text, Math, Color, Physics, Structural) are configured at runtime via the **Settings** page (`/settings`). All tools are enabled by default. Settings are persisted to `data/settings.json`.
 
 ---
 
@@ -512,10 +588,10 @@ Tool categories (JSON, CSV, PDF, XML, Excel, Image, Markdown, Archive, Regex, Di
 
 ```bash
 # Global install
-npm install -g @agent-tools/mcp-server
+npm install -g @atmaticai/agent-tools
 
 # Or run directly
-npx @agent-tools/mcp-server
+npx @atmaticai/agent-tools
 ```
 
 ### Transport Options
@@ -528,7 +604,7 @@ For Claude Desktop and local integrations:
   "mcpServers": {
     "agent-tools": {
       "command": "npx",
-      "args": ["@agent-tools/mcp-server"]
+      "args": ["@atmaticai/agent-tools"]
     }
   }
 }
@@ -538,14 +614,14 @@ For Claude Desktop and local integrations:
 For web-based MCP clients:
 
 ```bash
-npx @agent-tools/mcp-server --transport sse --port 3001
+npx @atmaticai/agent-tools --transport sse --port 3001
 ```
 
 #### HTTP Streaming
 For scalable, stateless deployments:
 
 ```bash
-npx @agent-tools/mcp-server --transport http --port 3001
+npx @atmaticai/agent-tools --transport http --port 3001
 ```
 
 Connect via:
@@ -593,7 +669,9 @@ The A2A agent card is available at `/.well-known/agent.json`:
     { "id": "datetime-operations", "name": "Date/Time Operations" },
     { "id": "text-operations", "name": "Text Processing" },
     { "id": "math-operations", "name": "Math Operations" },
-    { "id": "color-operations", "name": "Color Operations" }
+    { "id": "color-operations", "name": "Color Operations" },
+    { "id": "physics-operations", "name": "Physics Calculator" },
+    { "id": "structural-operations", "name": "Structural Engineering" }
   ]
 }
 ```
@@ -615,7 +693,7 @@ POST /a2a/tasks/:id/cancel → Cancel task
 ### Planned Features
 - **Direct Connection**: Register Agent Tools as a tool provider in a2ui-compatible agents
 - **Seamless Handoffs**: Pass data between a2ui agents and Agent Tools tools
-- **Visual Workflows**: Chain all 16 tool categories in visual pipelines
+- **Visual Workflows**: Chain all 18 tool categories in visual pipelines
 
 Stay tuned for updates on [GitHub](https://github.com/AtmaticAI/agent-tools).
 
@@ -628,7 +706,7 @@ agent-tools/
 ├── apps/
 │   └── web/                        # Next.js 15 application
 │       ├── app/
-│       │   ├── (dashboard)/        # Tool UI pages (16 tools)
+│       │   ├── (dashboard)/        # Tool UI pages (18 tools)
 │       │   │   ├── json/           # JSON Studio
 │       │   │   ├── csv/            # CSV Viewer
 │       │   │   ├── pdf/            # PDF Toolkit
@@ -642,15 +720,17 @@ agent-tools/
 │       │   │   ├── sql/            # SQL Studio
 │       │   │   ├── crypto/         # Crypto & Encoding
 │       │   │   ├── datetime/       # Date/Time Tools
+│       │   │   ├── physics/        # Physics Calculator
+│       │   │   ├── structural/     # Structural Engineering
 │       │   │   ├── connect/        # Integration guide
 │       │   │   └── settings/       # Runtime tool settings
 │       │   └── api/                # REST API routes
 │       ├── components/             # React components (shadcn/ui)
 │       └── lib/                    # Utilities and stores
 ├── packages/
-│   ├── core/                       # Shared business logic (16 modules)
-│   ├── mcp-server/                 # MCP server (100 tools)
-│   └── a2a-agent/                  # A2A agent (16 skills)
+│   ├── core/                       # Shared business logic (18 modules)
+│   ├── mcp-server/                 # MCP server (136 tools)
+│   └── a2a-agent/                  # A2A agent (18 skills)
 ├── docker/                         # Docker configurations
 ├── k8s/                            # Kubernetes manifests
 ├── terraform/                      # AWS infrastructure
@@ -697,7 +777,7 @@ Looking for a hosted, fully managed version of Agent Tools without the hassle of
 
 | Feature | Open Source | Managed Platform |
 |---------|-------------|------------------|
-| All 16 tool categories | Yes | Yes |
+| All 18 tool categories | Yes | Yes |
 | MCP / A2A / REST APIs | Yes | Yes |
 | Self-hosted | Yes | No (cloud-hosted) |
 | Automatic updates | Manual | Yes |
@@ -726,6 +806,8 @@ Apache 2.0 License - see [LICENSE](./LICENSE) for details.
 
 ## Links
 
+- **npm (MCP Server)**: [@atmaticai/agent-tools](https://www.npmjs.com/package/@atmaticai/agent-tools)
+- **npm (Core Library)**: [@atmaticai/agent-tools-core](https://www.npmjs.com/package/@atmaticai/agent-tools-core)
 - **Live Demo**: [tools.atmatic.ai](https://tools.atmatic.ai)
 - **Repository**: [github.com/AtmaticAI/agent-tools](https://github.com/AtmaticAI/agent-tools)
 - **Organization**: [atmatic.ai](https://atmatic.ai)

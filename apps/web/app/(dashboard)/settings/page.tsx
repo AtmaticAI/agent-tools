@@ -24,6 +24,8 @@ import {
   Type,
   Calculator,
   Palette,
+  Atom,
+  Building2,
 } from 'lucide-react';
 
 interface ToolMeta {
@@ -50,6 +52,8 @@ const TOOLS: ToolMeta[] = [
   { id: 'text', name: 'Text Utilities', description: 'Case conversion, slugify, word count, similarity, and template interpolation', icon: Type },
   { id: 'math', name: 'Math Utilities', description: 'Unit conversion, base conversion, statistics, and number formatting', icon: Calculator },
   { id: 'color', name: 'Color Utilities', description: 'Color parsing, conversion, contrast checking, palette generation, and blending', icon: Palette },
+  { id: 'physics', name: 'Physics Calculator', description: 'Kinematics, forces, energy, waves, thermodynamics, and electrical calculations', icon: Atom },
+  { id: 'structural', name: 'Structural Engineering', description: 'Beam analysis, column buckling, cross-section properties, and load combinations', icon: Building2 },
 ];
 
 export default function SettingsPage() {

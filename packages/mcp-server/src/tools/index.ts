@@ -14,6 +14,8 @@ import { datetimeTools } from './datetime';
 import { textTools } from './text';
 import { mathTools } from './math';
 import { colorTools } from './color';
+import { physicsTools } from './physics';
+import { structuralTools } from './structural';
 
 export interface McpTool {
   name: string;
@@ -45,9 +47,12 @@ export const allTools = [
   ...textTools,
   ...mathTools,
   ...colorTools,
+  ...physicsTools,
+  ...structuralTools,
 ] as unknown as McpTool[];
 
 export { jsonTools, csvTools, pdfTools };
 export { xmlTools, excelTools, imageTools, markdownTools, archiveTools };
 export { regexTools, diffTools, sqlTools, cryptoMcpTools, datetimeTools };
-export { textTools, mathTools, colorTools };
+export { textTools, mathTools, colorTools, physicsTools };
+export { structuralTools };

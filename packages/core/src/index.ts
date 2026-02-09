@@ -14,3 +14,5 @@ export * as datetime from './datetime';
 export * as text from './text';
 export * as math from './math';
 export * as color from './color';
+export * as physics from './physics';
+export * as structural from './structural';

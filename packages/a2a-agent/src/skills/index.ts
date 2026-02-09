@@ -14,6 +14,8 @@ import { datetimeSkill, handleDatetimeSkill } from './datetime';
 import { textSkill, handleTextSkill } from './text';
 import { mathSkill, handleMathSkill } from './math';
 import { colorSkill, handleColorSkill } from './color';
+import { physicsSkill, handlePhysicsSkill } from './physics';
+import { structuralSkill, handleStructuralSkill } from './structural';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const skills: Skill[] = [
@@ -33,6 +35,8 @@ export const skills: Skill[] = [
   textSkill,
   mathSkill,
   colorSkill,
+  physicsSkill,
+  structuralSkill,
 ];
 
 export async function handleSkill(
@@ -72,6 +76,10 @@ export async function handleSkill(
       return handleMathSkill(input);
     case 'color-operations':
       return handleColorSkill(input);
+    case 'physics-operations':
+      return handlePhysicsSkill(input);
+    case 'structural-operations':
+      return handleStructuralSkill(input);
     default:
       throw new Error(`Unknown skill: ${skillId}`);
   }
@@ -84,4 +92,6 @@ export { handleXmlSkill, handleExcelSkill, handleImageSkill, handleMarkdownSkill
 export { regexSkill, diffSkill, sqlSkill, cryptoSkill, datetimeSkill };
 export { handleRegexSkill, handleDiffSkill, handleSqlSkill, handleCryptoSkill, handleDatetimeSkill };
 export { textSkill, mathSkill, colorSkill };
-export { handleTextSkill, handleMathSkill, handleColorSkill };
+export { handleTextSkill, handleMathSkill, handleColorSkill, handlePhysicsSkill };
+export { physicsSkill };
+export { structuralSkill, handleStructuralSkill };
