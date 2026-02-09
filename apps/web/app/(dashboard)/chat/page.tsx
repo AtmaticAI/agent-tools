@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useChatStore, type ToolResult } from '@/lib/stores/chat-store';
+import { analytics } from '@/lib/analytics';
 import {
   Send,
   Loader2,
@@ -153,6 +154,7 @@ export default function ChatPage() {
     addMessage({ role: 'assistant', content: '' });
     setLoading(true);
     setCreditsExhausted(false);
+    analytics.chatMessageSent(selectedModel);
 
     try {
       const history = messages.map((m) => ({
@@ -405,7 +407,7 @@ export default function ChatPage() {
           <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
             Model
           </h3>
-          <Select value={selectedModel} onValueChange={setModel}>
+          <Select value={selectedModel} onValueChange={(v) => { setModel(v); analytics.chatModelChanged(v); }}>
             <SelectTrigger className="h-8 text-xs">
               <SelectValue />
             </SelectTrigger>
@@ -453,7 +455,7 @@ export default function ChatPage() {
                 >
                   <Switch
                     checked={enabled}
-                    onCheckedChange={() => toggleCategory(key)}
+                    onCheckedChange={() => { toggleCategory(key); analytics.toolToggled(key, !enabled); }}
                     className="scale-75"
                   />
                   <Icon className="h-3.5 w-3.5 text-muted-foreground shrink-0" />

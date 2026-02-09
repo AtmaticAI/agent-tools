@@ -62,6 +62,13 @@ resource "aws_ecs_task_definition" "agent-tools" {
         { name = "NODE_ENV", value = "production" },
         { name = "PORT", value = tostring(var.container_port) },
         { name = "MCP_PORT", value = tostring(var.mcp_port) },
+        # OpenTelemetry (uncomment to enable tracing)
+        # { name = "OTEL_EXPORTER_OTLP_ENDPOINT", value = "http://otel-collector:4318" },
+        # { name = "OTEL_SERVICE_NAME", value = "agent-tools-web" },
+        # Logging
+        # { name = "LOG_LEVEL", value = "info" },
+        # Google Analytics (uncomment to enable)
+        # { name = "NEXT_PUBLIC_GA_ID", value = "G-XXXXXXXXXX" },
       ]
 
       logConfiguration = {
