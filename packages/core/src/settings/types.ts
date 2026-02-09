@@ -14,7 +14,9 @@ export type ToolCategory =
   | 'datetime'
   | 'text'
   | 'math'
-  | 'color';
+  | 'color'
+  | 'physics'
+  | 'structural';
 
 export interface ToolSettings {
   enabled: Record<ToolCategory, boolean>;

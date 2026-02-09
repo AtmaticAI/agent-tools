@@ -19,6 +19,8 @@ export default defineConfig({
     'text/index': 'src/text/index.ts',
     'math/index': 'src/math/index.ts',
     'color/index': 'src/color/index.ts',
+    'physics/index': 'src/physics/index.ts',
+    'structural/index': 'src/structural/index.ts',
     'settings/index': 'src/settings/index.ts',
   },
   format: ['cjs', 'esm'],

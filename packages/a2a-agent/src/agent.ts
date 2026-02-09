@@ -30,6 +30,8 @@ const skillToCategory: Record<string, ToolCategory> = {
   'text-operations': 'text',
   'math-operations': 'math',
   'color-operations': 'color',
+  'physics-operations': 'physics',
+  'structural-operations': 'structural',
 };
 
 export async function getAgentCard(baseUrl: string): Promise<AgentCard> {

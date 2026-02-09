@@ -25,7 +25,9 @@ import {
   Shield,
   Workflow,
   Zap,
+  MessageSquare,
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const allTools = [
   { id: 'json', title: 'JSON Studio', description: 'Format, validate, query, convert, and diff JSON documents', href: '/json', icon: Braces },
@@ -97,8 +99,16 @@ export default function HomePage() {
           Agent-driven platform for data transformation. Built for MCP and A2A systems.
         </p>
 
+        {/* Chat with AI Button */}
+        <Link href="/chat">
+          <Button size="lg" className="mt-6 gap-2">
+            <MessageSquare className="h-5 w-5" />
+            Chat with AI
+          </Button>
+        </Link>
+
         {/* Search - floating with shadow */}
-        <div className="mt-10 w-full max-w-xl">
+        <div className="mt-8 w-full max-w-xl">
           <div className="relative rounded-2xl bg-background shadow-lg shadow-black/5 ring-1 ring-black/5 dark:ring-white/10">
             <Search className="absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <input

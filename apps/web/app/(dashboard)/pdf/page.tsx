@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -68,6 +68,15 @@ export default function PdfPage() {
 
   const removeFile = (id: string) => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
+  };
+
+  const moveFile = (fromIndex: number, toIndex: number) => {
+    setFiles((prev) => {
+      const updated = [...prev];
+      const [moved] = updated.splice(fromIndex, 1);
+      updated.splice(toIndex, 0, moved);
+      return updated;
+    });
   };
 
   const handleMerge = async () => {
@@ -274,26 +283,7 @@ export default function PdfPage() {
             <CardContent>
               {files.length > 0 ? (
                 <ScrollArea className="h-[300px]">
-                  <div className="space-y-2">
-                    {files.map((file) => (
-                      <div
-                        key={file.id}
-                        className="flex items-center gap-3 rounded-lg border bg-card p-3"
-                      >
-                        <GripVertical className="h-4 w-4 text-muted-foreground" />
-                        <FileText className="h-4 w-4 text-primary" />
-                        <span className="flex-1 truncate text-sm">{file.name}</span>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => removeFile(file.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
+                  <DraggableFileList files={files} onRemove={removeFile} onReorder={moveFile} />
                 </ScrollArea>
               ) : (
                 <div className="flex h-[300px] items-center justify-center text-muted-foreground">
@@ -351,16 +341,8 @@ export default function PdfPage() {
                     {files.length > 0 && (
                       <div className="rounded-lg border bg-muted/50 p-4">
                         <h4 className="mb-2 text-sm font-medium">Merge Order</h4>
-                        <ol className="space-y-1 text-sm">
-                          {files.map((file, i) => (
-                            <li key={file.id} className="flex items-center gap-2">
-                              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/10 text-xs font-medium">
-                                {i + 1}
-                              </span>
-                              {file.name}
-                            </li>
-                          ))}
-                        </ol>
+                        <p className="text-xs text-muted-foreground mb-3">Drag and drop to reorder files</p>
+                        <DraggableFileList files={files} onRemove={removeFile} onReorder={moveFile} showIndex />
                       </div>
                     )}
 
@@ -438,6 +420,80 @@ export default function PdfPage() {
           </Card>
         </div>
       </div>
+    </div>
+  );
+}
+
+function DraggableFileList({
+  files,
+  onRemove,
+  onReorder,
+  showIndex = false,
+}: {
+  files: PDFFile[];
+  onRemove: (id: string) => void;
+  onReorder: (from: number, to: number) => void;
+  showIndex?: boolean;
+}) {
+  const dragItem = useRef<number | null>(null);
+  const dragOverItem = useRef<number | null>(null);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (index: number) => {
+    dragItem.current = index;
+    setDragIndex(index);
+  };
+
+  const handleDragEnter = (index: number) => {
+    dragOverItem.current = index;
+    setOverIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    if (dragItem.current !== null && dragOverItem.current !== null && dragItem.current !== dragOverItem.current) {
+      onReorder(dragItem.current, dragOverItem.current);
+    }
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setDragIndex(null);
+    setOverIndex(null);
+  };
+
+  return (
+    <div className="space-y-1.5">
+      {files.map((file, index) => (
+        <div
+          key={file.id}
+          draggable
+          onDragStart={() => handleDragStart(index)}
+          onDragEnter={() => handleDragEnter(index)}
+          onDragEnd={handleDragEnd}
+          onDragOver={(e) => e.preventDefault()}
+          className={cn(
+            'flex items-center gap-3 rounded-lg border bg-card p-3 transition-all cursor-grab active:cursor-grabbing',
+            dragIndex === index && 'opacity-40 scale-[0.98]',
+            overIndex === index && dragIndex !== index && 'border-primary border-dashed bg-primary/5',
+          )}
+        >
+          {showIndex && (
+            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-medium">
+              {index + 1}
+            </span>
+          )}
+          <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <FileText className="h-4 w-4 shrink-0 text-primary" />
+          <span className="flex-1 truncate text-sm">{file.name}</span>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 shrink-0"
+            onClick={() => onRemove(file.id)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      ))}
     </div>
   );
 }

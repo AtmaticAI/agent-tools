@@ -17,6 +17,8 @@ export const ALL_TOOL_CATEGORIES: ToolCategory[] = [
   'text',
   'math',
   'color',
+  'physics',
+  'structural',
 ];
 
 export const TOOL_METADATA: { id: ToolCategory; name: string; description: string }[] = [
@@ -36,6 +38,8 @@ export const TOOL_METADATA: { id: ToolCategory; name: string; description: strin
   { id: 'text', name: 'Text Utilities', description: 'Case conversion, slugify, word count, similarity, and template interpolation' },
   { id: 'math', name: 'Math Utilities', description: 'Unit conversion, base conversion, statistics, and number formatting' },
   { id: 'color', name: 'Color Utilities', description: 'Color parsing, conversion, contrast checking, palette generation, and blending' },
+  { id: 'physics', name: 'Physics Calculator', description: 'Constants, kinematics, mechanics, electricity, waves, thermodynamics, and relativity' },
+  { id: 'structural', name: 'Structural Engineering', description: 'Stress analysis, beam design, column buckling, cross-sections, soil mechanics, and materials' },
 ];
 
 export const DEFAULT_SETTINGS: ToolSettings = {

@@ -18,8 +18,8 @@ import {
   FileText,
   Plug,
   Home,
-  PanelLeftClose,
-  PanelLeft,
+  ChevronsLeft,
+  ChevronsRight,
   Code2,
   FileSpreadsheet,
   Image,
@@ -34,12 +34,16 @@ import {
   Type,
   Calculator,
   Palette,
+  Atom,
+  Building2,
   Search,
   X,
+  MessageSquare,
 } from 'lucide-react';
 
 const pinnedNav = [
   { name: 'Home', href: '/', icon: Home, toolId: null },
+  { name: 'AI Chat', href: '/chat', icon: MessageSquare, toolId: null },
   { name: 'Connect', href: '/connect', icon: Plug, toolId: null },
   { name: 'Customize', href: '/settings', icon: Settings, toolId: null },
 ];
@@ -61,6 +65,8 @@ const tools = [
   { name: 'Text Utilities', href: '/text', icon: Type, toolId: 'text' },
   { name: 'Math Utilities', href: '/math', icon: Calculator, toolId: 'math' },
   { name: 'Color Utilities', href: '/color', icon: Palette, toolId: 'color' },
+  { name: 'Physics Calculator', href: '/physics', icon: Atom, toolId: 'physics' },
+  { name: 'Structural Engineering', href: '/structural', icon: Building2, toolId: 'structural' },
 ];
 
 export function Sidebar() {
@@ -159,10 +165,10 @@ export function Sidebar() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 shrink-0"
+              className="h-8 w-8 shrink-0 text-muted-foreground/50 hover:text-muted-foreground"
               onClick={toggleSidebar}
             >
-              <PanelLeftClose className="h-4 w-4" />
+              <ChevronsLeft className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -172,10 +178,10 @@ export function Sidebar() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8"
+              className="h-8 w-8 text-muted-foreground/50 hover:text-muted-foreground"
               onClick={toggleSidebar}
             >
-              <PanelLeft className="h-4 w-4" />
+              <ChevronsRight className="h-4 w-4" />
             </Button>
           </div>
         )}
@@ -187,7 +193,7 @@ export function Sidebar() {
 
         {/* Search (expanded only) */}
         {showLabel && (
-          <div className="px-3 pb-2">
+          <div className="px-3 pt-3 pb-2">
             <div className="relative">
               <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
               <input
