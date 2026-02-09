@@ -36,6 +36,8 @@ describe('MCP Tools Registration', () => {
     expect(toolNames).toContain('agent_tools_pdf_metadata');
     expect(toolNames).toContain('agent_tools_pdf_to_template');
     expect(toolNames).toContain('agent_tools_pdf_from_template');
+    expect(toolNames).toContain('agent_tools_pdf_read_form');
+    expect(toolNames).toContain('agent_tools_pdf_fill_form');
   });
 
   it('all tools should have required properties', () => {

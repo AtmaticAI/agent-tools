@@ -27,6 +27,7 @@ export interface McpTool {
   };
   handler: (args: Record<string, unknown>) => Promise<{
     content: { type: 'text'; text: string }[];
+    isError?: boolean;
   }>;
 }
 

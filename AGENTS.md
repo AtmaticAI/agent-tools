@@ -139,7 +139,7 @@ npx @agent-tools/mcp-server --transport http   # Scalable deployments
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `HF_TOKEN` | *(unset)* | HuggingFace API token. Required to enable the AI Chat feature. |
-| `CHAT_MODEL` | `microsoft/Phi-4-mini-instruct` | Default LLM model for chat |
+| `CHAT_MODEL` | `Qwen/Qwen2.5-7B-Instruct` | Default LLM model for chat |
 | `CHAT_MESSAGE_LIMIT` | `0` (unlimited) | Max messages per session (0 = unlimited) |
 | `CHAT_SESSION_SECRET` | *(auto-generated)* | HMAC secret for session cookies |
 

@@ -121,3 +121,23 @@ export interface PdfToTemplateOptions {
 export interface TemplateToPdfOptions {
   missingFieldBehavior?: 'leave_placeholder' | 'use_default' | 'empty_string';
 }
+
+// --- PDF Form (AcroForm) types ---
+
+export type FormFieldType = 'text' | 'checkbox' | 'radio' | 'dropdown';
+
+export interface FormField {
+  name: string;
+  type: FormFieldType;
+  value?: string | boolean;
+  options?: string[];
+}
+
+export interface FormInfo {
+  fields: FormField[];
+  fieldCount: number;
+}
+
+export interface FillFormOptions {
+  flatten?: boolean;
+}

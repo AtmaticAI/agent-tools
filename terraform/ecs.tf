@@ -69,6 +69,11 @@ resource "aws_ecs_task_definition" "agent-tools" {
         # { name = "LOG_LEVEL", value = "info" },
         # Google Analytics (uncomment to enable)
         # { name = "NEXT_PUBLIC_GA_ID", value = "G-XXXXXXXXXX" },
+        # AI Chat (uncomment to enable)
+        # { name = "HF_TOKEN", value = "your_hugging_face_token" },
+        # { name = "CHAT_MODEL", value = "Qwen/Qwen2.5-7B-Instruct" },
+        # { name = "CHAT_MESSAGE_LIMIT", value = "0" },
+        # { name = "CHAT_SESSION_SECRET", value = "your_random_secret_key" },
       ]
 
       logConfiguration = {

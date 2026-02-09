@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { pdf } from '@agent-tools/core';
 import { guardTool } from '@/lib/tool-guard';
+import { validateBase64Files } from '@/lib/validate-file';
 
 export async function POST(request: NextRequest) {
   const blocked = await guardTool('pdf');
@@ -16,6 +17,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const sizeError = validateBase64Files(files);
+    if (sizeError) return sizeError;
 
     const buffers = files.map((f: string) => Buffer.from(f, 'base64'));
     const result = await pdf.merge(buffers, { pageRanges });

@@ -358,4 +358,71 @@ export const pdfTools = [
       };
     },
   },
+  {
+    name: 'agent_tools_pdf_read_form',
+    description:
+      'Read AcroForm fields from a fillable PDF. Returns field names, types, current values, and options.',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {
+        file: {
+          type: 'string',
+          description: 'Base64-encoded PDF file',
+        },
+      },
+      required: ['file'],
+    },
+    handler: async (args: { file: string }) => {
+      const buffer = Buffer.from(args.file, 'base64');
+      const result = await pdf.readFormFields(buffer);
+      return {
+        content: [
+          { type: 'text' as const, text: JSON.stringify(result, null, 2) },
+        ],
+      };
+    },
+  },
+  {
+    name: 'agent_tools_pdf_fill_form',
+    description:
+      'Fill AcroForm fields in a fillable PDF with provided data. Returns base64-encoded filled PDF.',
+    inputSchema: {
+      type: 'object' as const,
+      properties: {
+        file: {
+          type: 'string',
+          description: 'Base64-encoded PDF file',
+        },
+        data: {
+          type: 'object',
+          description:
+            'Key-value pairs mapping field names to values (string for text/radio/dropdown, boolean for checkbox)',
+        },
+        flatten: {
+          type: 'boolean',
+          description:
+            'If true, flatten the form fields making them non-editable (default: false)',
+        },
+      },
+      required: ['file', 'data'],
+    },
+    handler: async (args: {
+      file: string;
+      data: Record<string, string | boolean>;
+      flatten?: boolean;
+    }) => {
+      const buffer = Buffer.from(args.file, 'base64');
+      const result = await pdf.fillFormFields(buffer, args.data, {
+        flatten: args.flatten,
+      });
+      return {
+        content: [
+          {
+            type: 'text' as const,
+            text: Buffer.from(result).toString('base64'),
+          },
+        ],
+      };
+    },
+  },
 ];

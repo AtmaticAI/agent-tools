@@ -33,7 +33,7 @@ function getCategoryForTool(toolName: string): string {
   return parts[0];
 }
 
-export function buildSystemPrompt(enabledCategories: Record<string, boolean>): string {
+export function buildSystemPrompt(enabledCategories: Record<string, boolean>, fileContext?: string): string {
   const enabledTools = allTools.filter((tool: McpTool) => {
     const cat = getCategoryForTool(tool.name);
     return enabledCategories[cat] !== false;
@@ -50,9 +50,17 @@ export function buildSystemPrompt(enabledCategories: Record<string, boolean>): s
   const toolDescriptions = Object.entries(grouped)
     .map(([cat, tools]) => {
       const header = CATEGORIES[cat] || cat;
-      const lines = tools.map(
-        (t: McpTool) => `  - ${t.name}: ${t.description}`
-      );
+      const lines = tools.map((t: McpTool) => {
+        const params = Object.entries(t.inputSchema.properties || {})
+          .map(([name, schema]) => {
+            const s = schema as { type?: string; description?: string; enum?: string[] };
+            const required = t.inputSchema.required?.includes(name);
+            const enumVals = s.enum ? ` [${s.enum.join('|')}]` : '';
+            return `${name} (${s.type || 'any'}${required ? ', required' : ''}${enumVals})`;
+          })
+          .join(', ');
+        return `  - ${t.name}: ${t.description}\n    Parameters: {${params}}`;
+      });
       return `### ${header}\n${lines.join('\n')}`;
     })
     .join('\n\n');
@@ -84,5 +92,19 @@ You can call multiple tools by including multiple tool blocks. After tools execu
 - When a user's request maps to a tool, execute it rather than just explaining
 - Show tool results clearly
 - If a tool fails, explain the error and suggest corrections
-- If the user asks about something outside your scope, say: "I'm focused on helping you with Agent Tools. You can explore all tools at the homepage or visit atmatic.ai for more information."`;
+- If the user asks about something outside your scope, say: "I'm focused on helping you with Agent Tools. You can explore all tools at the homepage or visit atmatic.ai for more information."${
+    fileContext
+      ? `
+
+## File Attachments
+When the user attaches files, they appear as references like __file:0__, __file:1__, etc.
+Use these references as the value for file parameters in tool calls.
+Example: {"tool": "agent_tools_pdf_extract_text", "arguments": {"file": "__file:0__"}}
+Do NOT attempt to generate or fabricate file content — always use the __file:N__ reference.
+
+IMPORTANT for PDF forms: When asked to fill a PDF form, ALWAYS first call agent_tools_pdf_read_form to discover the exact field names, then use those exact names in agent_tools_pdf_fill_form. Never guess field names.
+
+IMPORTANT: When a tool returns binary data (base64-encoded files like PDFs, images, archives), do NOT include the base64 data in your response. Simply tell the user the file was generated and they can download it using the download button. Never embed base64 strings or data URIs in your markdown.`
+      : ''
+  }`;
 }
