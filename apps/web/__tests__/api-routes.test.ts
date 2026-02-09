@@ -47,11 +47,11 @@ describe('SettingsService', () => {
     service = new SettingsService(repo);
   });
 
-  it('should return all 16 tools enabled by default', async () => {
+  it('should return all 18 tools enabled by default', async () => {
     const settings = await service.getSettings();
 
     expect(Object.keys(settings.enabled)).toHaveLength(ALL_TOOL_CATEGORIES.length);
-    expect(ALL_TOOL_CATEGORIES).toHaveLength(16);
+    expect(ALL_TOOL_CATEGORIES).toHaveLength(18);
 
     for (const category of ALL_TOOL_CATEGORIES) {
       expect(settings.enabled[category]).toBe(true);
@@ -449,7 +449,7 @@ describe('API Route: /api/settings', () => {
     expect(response.status).toBe(200);
     const body = await response.json();
     expect(body.enabled).toBeDefined();
-    expect(Object.keys(body.enabled)).toHaveLength(16);
+    expect(Object.keys(body.enabled)).toHaveLength(18);
 
     for (const category of ALL_TOOL_CATEGORIES) {
       expect(body.enabled[category]).toBe(true);
