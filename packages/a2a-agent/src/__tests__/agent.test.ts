@@ -21,7 +21,7 @@ describe('A2A Agent Card', () => {
   it('should include all skills', async () => {
     const card = await getAgentCard('https://example.com');
 
-    expect(card.skills.length).toBe(16);
+    expect(card.skills.length).toBe(18);
     const skillIds = card.skills.map((s) => s.id);
     expect(skillIds).toContain('json-operations');
     expect(skillIds).toContain('csv-operations');
