@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { image } from '@agent-tools/core';
 import { guardTool } from '@/lib/tool-guard';
+import { validateBase64File } from '@/lib/validate-file';
 
 export async function POST(request: NextRequest) {
   const blocked = await guardTool('image');
@@ -23,6 +24,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const sizeError = validateBase64File(file);
+    if (sizeError) return sizeError;
 
     const buffer = Buffer.from(file, 'base64');
     const result = await image.resize(buffer, { width, height, fit });

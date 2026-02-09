@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { archive } from '@agent-tools/core';
 import { guardTool } from '@/lib/tool-guard';
+import { validateBase64Files } from '@/lib/validate-file';
 
 export async function POST(request: NextRequest) {
   const blocked = await guardTool('archive');
@@ -16,6 +17,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const sizeError = validateBase64Files(files.map((f: { content: string }) => f.content));
+    if (sizeError) return sizeError;
 
     const archiveFiles = files.map(
       (f: { path: string; content: string }) => ({

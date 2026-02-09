@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Switch } from '@/components/ui/switch';
@@ -12,7 +13,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useChatStore, type ToolResult } from '@/lib/stores/chat-store';
+import { formatBytes, downloadFile } from '@/lib/utils';
 import { analytics } from '@/lib/analytics';
+import { toast } from 'sonner';
 import {
   Send,
   Loader2,
@@ -41,12 +44,15 @@ import {
   Atom,
   Building2,
   Sparkles,
+  Paperclip,
+  X,
+  Download,
 } from 'lucide-react';
 
 const CATEGORY_META: Record<string, { label: string; icon: React.ElementType; count: number }> = {
   json: { label: 'JSON Studio', icon: Braces, count: 10 },
   csv: { label: 'CSV Viewer', icon: Table2, count: 6 },
-  pdf: { label: 'PDF Toolkit', icon: FileText, count: 5 },
+  pdf: { label: 'PDF Toolkit', icon: FileText, count: 7 },
   xml: { label: 'XML Studio', icon: Code2, count: 5 },
   excel: { label: 'Excel Viewer', icon: FileSpreadsheet, count: 4 },
   image: { label: 'Image Toolkit', icon: Image, count: 5 },
@@ -65,10 +71,24 @@ const CATEGORY_META: Record<string, { label: string; icon: React.ElementType; co
 };
 
 const MODELS = [
-  { id: 'microsoft/Phi-4-mini-instruct', label: 'Phi-4 Mini' },
   { id: 'Qwen/Qwen2.5-7B-Instruct', label: 'Qwen 2.5 7B' },
-  { id: 'mistralai/Mistral-7B-Instruct-v0.3', label: 'Mistral 7B' },
   { id: 'meta-llama/Llama-3.1-8B-Instruct', label: 'Llama 3.1 8B' },
+  { id: 'mistralai/Mistral-7B-Instruct-v0.3', label: 'Mistral 7B' },
+  { id: 'google/gemma-2-2b-it', label: 'Gemma 2 2B' },
+];
+
+const MAX_FILES = 3;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+const ALLOWED_FILE_TYPES = [
+  'application/pdf',
+  'image/png',
+  'image/jpeg',
+  'image/gif',
+  'image/webp',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-excel',
+  'application/zip',
+  'application/x-zip-compressed',
 ];
 
 function ToolResultCard({ result }: { result: ToolResult }) {
@@ -110,6 +130,7 @@ export default function ChatPage() {
     selectedModel,
     messagesRemaining,
     limitReached,
+    pendingAttachments,
     addMessage,
     updateLastAssistant,
     setLoading,
@@ -118,14 +139,26 @@ export default function ChatPage() {
     setModel,
     setMessagesRemaining,
     setLimitReached,
+    addAttachment,
+    removeAttachment,
+    clearAttachments,
     reset,
   } = useChatStore();
 
   const [input, setInput] = useState('');
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [creditsExhausted, setCreditsExhausted] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Reset to first model if persisted value is stale
+  useEffect(() => {
+    if (!MODELS.some((m) => m.id === selectedModel)) {
+      setModel(MODELS[0].id);
+    }
+  }, [selectedModel, setModel]);
 
   // Check API configuration on mount
   useEffect(() => {
@@ -145,12 +178,76 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  const processFile = useCallback((file: File) => {
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      toast.error(`Unsupported file type: ${file.type || 'unknown'}`);
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error(`${file.name} exceeds 10MB limit (${formatBytes(file.size)})`);
+      return;
+    }
+    if (pendingAttachments.length >= MAX_FILES) {
+      toast.error(`Maximum ${MAX_FILES} files per message`);
+      return;
+    }
+    if (pendingAttachments.some((a) => a.name === file.name)) {
+      toast.error(`${file.name} is already attached`);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const arrayBuffer = reader.result as ArrayBuffer;
+      const base64 = btoa(
+        new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+      addAttachment({ name: file.name, size: file.size, type: file.type, base64 });
+      toast.success(`Attached ${file.name}`);
+    };
+    reader.onerror = () => toast.error(`Failed to read ${file.name}`);
+    reader.readAsArrayBuffer(file);
+  }, [pendingAttachments, addAttachment]);
+
+  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      Array.from(files).forEach(processFile);
+    }
+    e.target.value = '';
+  }, [processFile]);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const files = e.dataTransfer.files;
+    if (files) {
+      Array.from(files).forEach(processFile);
+    }
+  }, [processFile]);
+
   const sendMessage = useCallback(async () => {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
 
+    const filesToSend = [...pendingAttachments];
+    const attachmentMeta = filesToSend.length > 0
+      ? filesToSend.map(({ name, size, type }) => ({ name, size, type }))
+      : undefined;
+
     setInput('');
-    addMessage({ role: 'user', content: trimmed });
+    addMessage({ role: 'user', content: trimmed, attachments: attachmentMeta });
+    clearAttachments();
     addMessage({ role: 'assistant', content: '' });
     setLoading(true);
     setCreditsExhausted(false);
@@ -170,6 +267,9 @@ export default function ChatPage() {
           enabledCategories,
           model: selectedModel,
           history,
+          ...(filesToSend.length > 0 && {
+            files: filesToSend.map(({ name, size, type, base64 }) => ({ name, size, type, base64 })),
+          }),
         }),
       });
 
@@ -201,7 +301,7 @@ export default function ChatPage() {
         return;
       }
 
-      updateLastAssistant(data.message, data.toolResults);
+      updateLastAssistant(data.message, data.toolResults, data.fileOutputs);
 
       if (data.messagesRemaining !== null && data.messagesRemaining !== undefined) {
         setMessagesRemaining(data.messagesRemaining);
@@ -217,11 +317,13 @@ export default function ChatPage() {
     messages,
     enabledCategories,
     selectedModel,
+    pendingAttachments,
     addMessage,
     updateLastAssistant,
     setLoading,
     setLimitReached,
     setMessagesRemaining,
+    clearAttachments,
   ]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -291,10 +393,48 @@ export default function ChatPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="whitespace-pre-wrap">{msg.content}</div>
+                      {msg.role === 'assistant' ? (
+                        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-pre:my-2 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-code:before:content-none prose-code:after:content-none prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-xs prose-pre:bg-muted prose-pre:text-foreground prose-pre:border prose-pre:border-border">
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="whitespace-pre-wrap">{msg.content}</div>
+                          {msg.attachments && msg.attachments.length > 0 && (
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {msg.attachments.map((att) => (
+                                <span
+                                  key={att.name}
+                                  className="inline-flex items-center gap-1 rounded-md bg-primary-foreground/20 px-2 py-0.5 text-xs"
+                                >
+                                  <Paperclip className="h-3 w-3" />
+                                  {att.name} ({formatBytes(att.size)})
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                       {msg.toolResults?.map((result, i) => (
                         <ToolResultCard key={i} result={result} />
                       ))}
+                      {msg.fileOutputs && msg.fileOutputs.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {msg.fileOutputs.map((file, i) => (
+                            <button
+                              key={i}
+                              onClick={() => {
+                                const bytes = Uint8Array.from(atob(file.base64), (c) => c.charCodeAt(0));
+                                downloadFile(bytes, file.name, file.mime);
+                              }}
+                              className="inline-flex items-center gap-1.5 rounded-lg border bg-primary/5 px-3 py-1.5 text-xs font-medium hover:bg-primary/10 transition-colors"
+                            >
+                              <Download className="h-3.5 w-3.5" />
+                              {file.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </>
                   )}
                 </div>
@@ -358,13 +498,59 @@ export default function ChatPage() {
         {/* Input area */}
         <div className="border-t bg-background px-6 py-4">
           <div className="max-w-3xl mx-auto">
-            <div className="flex gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.xlsx,.xls,.zip"
+              multiple
+              onChange={handleFileSelect}
+            />
+
+            {/* Pending attachment chips */}
+            {pendingAttachments.length > 0 && (
+              <div className="mb-2 flex flex-wrap gap-1.5">
+                {pendingAttachments.map((att) => (
+                  <span
+                    key={att.name}
+                    className="inline-flex items-center gap-1 rounded-lg border bg-muted/50 px-2.5 py-1 text-xs"
+                  >
+                    <Paperclip className="h-3 w-3 text-muted-foreground" />
+                    <span className="max-w-[150px] truncate">{att.name}</span>
+                    <span className="text-muted-foreground">({formatBytes(att.size)})</span>
+                    <button
+                      onClick={() => removeAttachment(att.name)}
+                      className="ml-0.5 rounded-full p-0.5 hover:bg-muted transition-colors"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div
+              className={`flex gap-2 ${isDragging ? 'ring-2 ring-primary/40 rounded-xl' : ''}`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-[44px] w-[44px] rounded-xl shrink-0"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isLoading || limitReached}
+                title="Attach files (PDF, images, Excel, ZIP)"
+              >
+                <Paperclip className="h-4 w-4" />
+              </Button>
               <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder={limitReached ? 'Message limit reached' : 'Ask me to use any tool...'}
+                placeholder={limitReached ? 'Message limit reached' : isDragging ? 'Drop files here...' : 'Ask me to use any tool...'}
                 disabled={isLoading || limitReached}
                 rows={1}
                 className="flex-1 resize-none rounded-xl border bg-background px-4 py-3 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/20 disabled:opacity-50 min-h-[44px] max-h-[120px]"

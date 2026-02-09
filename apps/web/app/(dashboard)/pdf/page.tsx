@@ -17,6 +17,7 @@ import {
   GripVertical,
   FileCode,
   FilePlus,
+  ClipboardEdit,
 } from 'lucide-react';
 import { cn, downloadFile } from '@/lib/utils';
 import { FullscreenButton, useFullscreenContainer } from '@/components/ui/fullscreen-button';
@@ -326,6 +327,10 @@ export default function PdfPage() {
                       <FilePlus className="h-4 w-4" />
                       From Template
                     </TabsTrigger>
+                    <TabsTrigger value="form-fill" className="gap-2">
+                      <ClipboardEdit className="h-4 w-4" />
+                      Form Fill
+                    </TabsTrigger>
                   </TabsList>
                   <FullscreenButton targetRef={containerRef} variant="ghost" />
                 </div>
@@ -413,6 +418,14 @@ export default function PdfPage() {
                   <FromTemplatePanel
                     onGenerate={handleGenerateFromTemplate}
                     processing={processing}
+                  />
+                </TabsContent>
+
+                <TabsContent value="form-fill" className="m-0">
+                  <FormFillPanel
+                    files={files}
+                    processing={processing}
+                    setProcessing={setProcessing}
                   />
                 </TabsContent>
               </CardContent>
@@ -624,6 +637,233 @@ function ToTemplatePanel({
       ) : (
         <div className="rounded-lg border bg-muted/50 p-8 text-center text-muted-foreground">
           Upload a PDF to extract a template
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface FormFieldInfo {
+  name: string;
+  type: 'text' | 'checkbox' | 'radio' | 'dropdown';
+  value?: string | boolean;
+  options?: string[];
+}
+
+function FormFillPanel({
+  files,
+  processing,
+  setProcessing,
+}: {
+  files: PDFFile[];
+  processing: boolean;
+  setProcessing: (v: boolean) => void;
+}) {
+  const [selectedFile, setSelectedFile] = useState(0);
+  const [fields, setFields] = useState<FormFieldInfo[]>([]);
+  const [formData, setFormData] = useState<Record<string, string | boolean>>({});
+  const [flatten, setFlatten] = useState(false);
+  const [fieldsRead, setFieldsRead] = useState(false);
+
+  const handleReadFields = async () => {
+    if (files.length === 0) return;
+    setProcessing(true);
+    setFieldsRead(false);
+    setFields([]);
+    setFormData({});
+    try {
+      const file = files[selectedFile];
+      const response = await fetch('/api/pdf/read-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          file: Buffer.from(file.data).toString('base64'),
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to read form fields');
+
+      const result = await response.json();
+      const readFields: FormFieldInfo[] = result.fields;
+      setFields(readFields);
+
+      const initialData: Record<string, string | boolean> = {};
+      for (const f of readFields) {
+        if (f.type === 'checkbox') {
+          initialData[f.name] = f.value === true;
+        } else {
+          initialData[f.name] = (f.value as string) ?? '';
+        }
+      }
+      setFormData(initialData);
+      setFieldsRead(true);
+
+      if (readFields.length === 0) {
+        toast.info('No form fields found in this PDF');
+      } else {
+        toast.success(`Found ${readFields.length} form field(s)`);
+      }
+    } catch {
+      toast.error('Failed to read form fields');
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const handleFillForm = async () => {
+    if (files.length === 0) return;
+    setProcessing(true);
+    try {
+      const file = files[selectedFile];
+      const response = await fetch('/api/pdf/fill-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          file: Buffer.from(file.data).toString('base64'),
+          data: formData,
+          flatten,
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to fill form');
+
+      const result = await response.json();
+      const pdfData = Buffer.from(result.data, 'base64');
+      downloadFile(
+        new Uint8Array(pdfData),
+        `${file.name.replace('.pdf', '')}-filled.pdf`,
+        'application/pdf'
+      );
+      toast.success('Form filled and downloaded');
+    } catch {
+      toast.error('Failed to fill form');
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const updateField = (name: string, value: string | boolean) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">
+        Upload a fillable PDF (AcroForm), read its form fields, fill in values,
+        and download the completed PDF.
+      </p>
+
+      {files.length > 0 ? (
+        <>
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Select File</label>
+            <select
+              value={selectedFile}
+              onChange={(e) => {
+                setSelectedFile(parseInt(e.target.value));
+                setFieldsRead(false);
+                setFields([]);
+                setFormData({});
+              }}
+              className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+            >
+              {files.map((file, i) => (
+                <option key={file.id} value={i}>
+                  {file.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <Button
+            onClick={handleReadFields}
+            disabled={processing}
+            variant="outline"
+            className="w-full"
+          >
+            {processing && !fieldsRead ? 'Reading...' : 'Read Form Fields'}
+          </Button>
+
+          {fieldsRead && fields.length > 0 && (
+            <>
+              <div className="rounded-lg border bg-muted/50 p-4 space-y-4">
+                <h4 className="text-sm font-medium">
+                  Form Fields ({fields.length})
+                </h4>
+                <ScrollArea className="max-h-[300px]">
+                  <div className="space-y-3 pr-2">
+                    {fields.map((field) => (
+                      <div key={field.name} className="space-y-1">
+                        <label className="text-xs font-medium text-muted-foreground">
+                          {field.name}
+                          <span className="ml-2 rounded bg-primary/10 px-1.5 py-0.5 text-[10px] font-normal">
+                            {field.type}
+                          </span>
+                        </label>
+                        {field.type === 'text' && (
+                          <input
+                            type="text"
+                            value={(formData[field.name] as string) ?? ''}
+                            onChange={(e) => updateField(field.name, e.target.value)}
+                            className="w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+                          />
+                        )}
+                        {field.type === 'checkbox' && (
+                          <label className="flex items-center gap-2 text-sm">
+                            <input
+                              type="checkbox"
+                              checked={formData[field.name] === true}
+                              onChange={(e) => updateField(field.name, e.target.checked)}
+                              className="rounded border"
+                            />
+                            Checked
+                          </label>
+                        )}
+                        {(field.type === 'radio' || field.type === 'dropdown') &&
+                          field.options && (
+                            <select
+                              value={(formData[field.name] as string) ?? ''}
+                              onChange={(e) => updateField(field.name, e.target.value)}
+                              className="w-full rounded-md border bg-background px-3 py-1.5 text-sm"
+                            >
+                              <option value="">-- Select --</option>
+                              {field.options.map((opt) => (
+                                <option key={opt} value={opt}>
+                                  {opt}
+                                </option>
+                              ))}
+                            </select>
+                          )}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </div>
+
+              <label className="flex items-center gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={flatten}
+                  onChange={(e) => setFlatten(e.target.checked)}
+                  className="rounded border"
+                />
+                Flatten form (makes fields non-editable)
+              </label>
+
+              <Button
+                onClick={handleFillForm}
+                disabled={processing}
+                className="w-full"
+              >
+                <Download className="mr-2 h-4 w-4" />
+                {processing ? 'Processing...' : 'Fill Form & Download'}
+              </Button>
+            </>
+          )}
+        </>
+      ) : (
+        <div className="rounded-lg border bg-muted/50 p-8 text-center text-muted-foreground">
+          Upload a fillable PDF to read and fill form fields
         </div>
       )}
     </div>

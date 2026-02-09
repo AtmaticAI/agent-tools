@@ -6,3 +6,4 @@ export * from './metadata';
 export * from './transform';
 export * from './extract';
 export * from './template';
+export * from './form';

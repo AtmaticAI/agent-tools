@@ -44,10 +44,38 @@ export function parseToolCalls(text: string): ToolCallRequest[] {
   return calls;
 }
 
+export interface ChatFile {
+  name: string;
+  size: number;
+  type: string;
+  base64: string;
+}
+
+function resolveFilePlaceholders(
+  args: Record<string, unknown>,
+  files: ChatFile[]
+): Record<string, unknown> {
+  const resolved = { ...args };
+  for (const key of Object.keys(resolved)) {
+    const val = resolved[key];
+    if (typeof val === 'string') {
+      const match = val.match(/^__file:(\d+)__$/);
+      if (match) {
+        const idx = parseInt(match[1], 10);
+        if (idx >= 0 && idx < files.length) {
+          resolved[key] = files[idx].base64;
+        }
+      }
+    }
+  }
+  return resolved;
+}
+
 export async function executeTool(
   toolName: string,
   args: Record<string, unknown>,
-  enabledCategories: Record<string, boolean>
+  enabledCategories: Record<string, boolean>,
+  files?: ChatFile[]
 ): Promise<ToolCallResult> {
   const tool = toolMap.get(toolName);
   if (!tool) {
@@ -63,10 +91,13 @@ export async function executeTool(
     };
   }
 
+  const resolvedArgs = files ? resolveFilePlaceholders(args, files) : args;
+
   try {
-    const response = await tool.handler(args as never);
+    const response = await tool.handler(resolvedArgs as never);
     const text = response.content.map((c) => c.text).join('\n');
-    return { tool: toolName, success: true, result: text };
+    const success = !response.isError;
+    return { tool: toolName, success, result: text };
   } catch (e) {
     return {
       tool: toolName,
@@ -78,10 +109,11 @@ export async function executeTool(
 
 export async function executeToolCalls(
   calls: ToolCallRequest[],
-  enabledCategories: Record<string, boolean>
+  enabledCategories: Record<string, boolean>,
+  files?: ChatFile[]
 ): Promise<ToolCallResult[]> {
   return Promise.all(
-    calls.map((call) => executeTool(call.tool, call.arguments, enabledCategories))
+    calls.map((call) => executeTool(call.tool, call.arguments, enabledCategories, files))
   );
 }
 

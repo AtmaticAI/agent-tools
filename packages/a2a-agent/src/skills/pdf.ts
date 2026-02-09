@@ -164,6 +164,31 @@ export async function handlePdfSkill(input: TaskInput): Promise<Part[]> {
       ];
     }
 
+    case 'readForm': {
+      const file = Buffer.from(data as string, 'base64');
+      const result = await pdf.readFormFields(file);
+      return [{ type: 'data', data: result as unknown as Record<string, unknown> }];
+    }
+
+    case 'fillForm': {
+      const file = Buffer.from(data as string, 'base64');
+      const result = await pdf.fillFormFields(
+        file,
+        options.data as Record<string, string | boolean>,
+        { flatten: options.flatten as boolean | undefined }
+      );
+      return [
+        {
+          type: 'file',
+          file: {
+            name: 'filled.pdf',
+            mimeType: 'application/pdf',
+            bytes: Buffer.from(result).toString('base64'),
+          },
+        },
+      ];
+    }
+
     default:
       throw new Error(`Unknown PDF action: ${action}`);
   }
