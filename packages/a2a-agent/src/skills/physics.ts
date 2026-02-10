@@ -1,4 +1,4 @@
-import { physics } from '@agent-tools/core';
+import { physics } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const physicsSkill: Skill = {

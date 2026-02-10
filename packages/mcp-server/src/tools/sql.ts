@@ -1,4 +1,4 @@
-import { sql } from '@agent-tools/core';
+import { sql } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const sqlTools: McpTool[] = [

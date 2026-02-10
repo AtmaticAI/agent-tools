@@ -1,4 +1,4 @@
-import { json } from '@agent-tools/core';
+import { json } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const jsonSkill: Skill = {

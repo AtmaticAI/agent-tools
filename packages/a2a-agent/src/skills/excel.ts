@@ -1,4 +1,4 @@
-import { excel } from '@agent-tools/core';
+import { excel } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const excelSkill: Skill = {

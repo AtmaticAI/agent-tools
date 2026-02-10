@@ -1,4 +1,4 @@
-import { crypto as cryptoTools } from '@agent-tools/core';
+import { crypto as cryptoTools } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const cryptoMcpTools: McpTool[] = [

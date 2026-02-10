@@ -1,4 +1,4 @@
-import { datetime } from '@agent-tools/core';
+import { datetime } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const datetimeTools: McpTool[] = [

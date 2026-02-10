@@ -1,4 +1,4 @@
-import { markdown } from '@agent-tools/core';
+import { markdown } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const markdownTools: McpTool[] = [

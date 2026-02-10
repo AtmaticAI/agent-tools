@@ -1,4 +1,4 @@
-import { image } from '@agent-tools/core';
+import { image } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const imageSkill: Skill = {

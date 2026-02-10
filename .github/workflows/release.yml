@@ -32,8 +32,8 @@ jobs:
       - run: pnpm build
 
       # Publish MCP server to npm
-      - name: Publish @agent-tools/mcp-server
-        run: pnpm publish --filter=@agent-tools/mcp-server --access public --no-git-checks
+      - name: Publish @atmaticai/agent-tools
+        run: pnpm publish --filter=@atmaticai/agent-tools --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

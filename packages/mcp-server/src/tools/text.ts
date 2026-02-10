@@ -1,4 +1,4 @@
-import { text } from '@agent-tools/core';
+import { text } from '@atmaticai/agent-tools-core';
 
 export const textTools = [
   {

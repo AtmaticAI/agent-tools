@@ -18,7 +18,7 @@ RUN pnpm install --frozen-lockfile
 COPY packages/core ./packages/core
 COPY packages/mcp-server ./packages/mcp-server
 
-RUN pnpm build --filter=@agent-tools/core --filter=@agent-tools/mcp-server
+RUN pnpm build --filter=@atmaticai/agent-tools-core --filter=@atmaticai/agent-tools
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs

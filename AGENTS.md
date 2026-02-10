@@ -24,8 +24,8 @@ pnpm build:mcp            # Build MCP server only
 
 # Testing
 pnpm test                 # Run all tests (vitest)
-pnpm --filter @agent-tools/core test           # Run core package tests only
-pnpm --filter @agent-tools/mcp-server test     # Run MCP server tests only
+pnpm --filter @atmaticai/agent-tools-core test           # Run core package tests only
+pnpm --filter @atmaticai/agent-tools test     # Run MCP server tests only
 cd packages/core && pnpm test:watch         # Watch mode for a specific package
 
 # Code Quality
@@ -58,10 +58,10 @@ pnpm format:check         # Verify formatting
 
 ### Package Dependencies
 
-- `@agent-tools/core` - Standalone, no internal dependencies
-- `@agent-tools/mcp-server` - Depends on `@agent-tools/core`
-- `@agent-tools/a2a-agent` - Depends on `@agent-tools/core`
-- `@agent-tools/web` - Depends on `@agent-tools/core` and `@agent-tools/a2a-agent`
+- `@atmaticai/agent-tools-core` - Standalone, no internal dependencies
+- `@atmaticai/agent-tools` - Depends on `@atmaticai/agent-tools-core`
+- `@atmaticai/agent-tools-a2a` - Depends on `@atmaticai/agent-tools-core`
+- `@atmaticai/agent-tools-web` - Depends on `@atmaticai/agent-tools-core` and `@atmaticai/agent-tools-a2a`
 
 ### Core Modules
 
@@ -110,9 +110,9 @@ Each module in `packages/core/src/` follows a consistent pattern:
 
 **MCP Server** (for Claude Desktop, Claude Code):
 ```bash
-npx @agent-tools/mcp-server --transport stdio  # Default
-npx @agent-tools/mcp-server --transport sse    # Browser clients
-npx @agent-tools/mcp-server --transport http   # Scalable deployments
+npx @atmaticai/agent-tools --transport stdio  # Default
+npx @atmaticai/agent-tools --transport sse    # Browser clients
+npx @atmaticai/agent-tools --transport http   # Scalable deployments
 ```
 
 **A2A Agent**:

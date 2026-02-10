@@ -313,7 +313,7 @@ main() {
     # Wait for A2A server
     if ! wait_for_server "$A2A_URL/.well-known/agent.json" 10; then
         print_skip "A2A server not available at $A2A_URL (skipping A2A tests)"
-        print_info "Start A2A server with: pnpm --filter @agent-tools/a2a-agent dev"
+        print_info "Start A2A server with: pnpm --filter @atmaticai/agent-tools-a2a dev"
         return 0
     fi
 

@@ -1,4 +1,4 @@
-import { structural } from '@agent-tools/core';
+import { structural } from '@atmaticai/agent-tools-core';
 
 export const structuralTools = [
   // --- Stress & Strain ---

@@ -13,13 +13,13 @@ const mcpConfig = `{
   "mcpServers": {
     "agent-tools": {
       "command": "npx",
-      "args": ["@agent-tools/mcp-server"]
+      "args": ["@atmaticai/agent-tools"]
     }
   }
 }`;
 
 const mcpHttpConfig = `# Start HTTP streaming server
-npx @agent-tools/mcp-server --transport http --port 3001
+npx @atmaticai/agent-tools --transport http --port 3001
 
 # Then connect via:
 POST http://localhost:3001/mcp
@@ -298,7 +298,7 @@ export default function ConnectPage() {
             <CardContent>
               <CodeBlock
                 code={`# Start SSE server
-npx @agent-tools/mcp-server --transport sse --port 3001
+npx @atmaticai/agent-tools --transport sse --port 3001
 
 # Connect to /sse endpoint for event stream
 # Send messages to /message?clientId=xxx`}

@@ -1,4 +1,4 @@
-import { xml } from '@agent-tools/core';
+import { xml } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const xmlTools: McpTool[] = [

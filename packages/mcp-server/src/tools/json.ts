@@ -1,4 +1,4 @@
-import { json } from '@agent-tools/core';
+import { json } from '@atmaticai/agent-tools-core';
 
 export const jsonTools = [
   {

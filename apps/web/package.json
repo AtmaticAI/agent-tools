@@ -1,5 +1,5 @@
 {
-  "name": "@agent-tools/web",
+  "name": "@atmaticai/agent-tools-web",
   "version": "1.0.0",
   "private": true,
   "description": "Agent Tools web application - Premium data transformation UI",
@@ -13,9 +13,9 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@agent-tools/a2a-agent": "workspace:*",
-    "@agent-tools/core": "workspace:*",
-    "@agent-tools/mcp-server": "workspace:*",
+    "@atmaticai/agent-tools-a2a": "workspace:*",
+    "@atmaticai/agent-tools-core": "workspace:*",
+    "@atmaticai/agent-tools": "workspace:*",
     "@next/third-parties": "^15.1.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/exporter-trace-otlp-http": "^0.57.0",

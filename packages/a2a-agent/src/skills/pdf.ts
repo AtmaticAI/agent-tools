@@ -1,4 +1,4 @@
-import { pdf } from '@agent-tools/core';
+import { pdf } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const pdfSkill: Skill = {

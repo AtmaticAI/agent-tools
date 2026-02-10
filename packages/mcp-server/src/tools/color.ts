@@ -1,4 +1,4 @@
-import { color } from '@agent-tools/core';
+import { color } from '@atmaticai/agent-tools-core';
 
 export const colorTools = [
   {

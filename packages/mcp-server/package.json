@@ -1,6 +1,6 @@
 {
-  "name": "@agent-tools/mcp-server",
-  "version": "1.0.0",
+  "name": "@atmaticai/agent-tools",
+  "version": "1.0.2",
   "description": "MCP server for Agent Tools data transformation tools",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -31,7 +31,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@agent-tools/core": "workspace:*",
+    "@atmaticai/agent-tools-core": "workspace:*",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "commander": "^12.0.0",
     "express": "^4.21.0",

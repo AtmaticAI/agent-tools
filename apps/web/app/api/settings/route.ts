@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { settingsService } from '@agent-tools/core/settings';
+import { settingsService } from '@atmaticai/agent-tools-core/settings';
 
 export async function GET() {
   try {

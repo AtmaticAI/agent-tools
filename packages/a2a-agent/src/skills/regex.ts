@@ -1,4 +1,4 @@
-import { regex } from '@agent-tools/core';
+import { regex } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const regexSkill: Skill = {

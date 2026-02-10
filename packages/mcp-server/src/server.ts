@@ -4,8 +4,8 @@ import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { settingsService } from '@agent-tools/core/settings';
-import type { ToolCategory } from '@agent-tools/core/settings';
+import { settingsService } from '@atmaticai/agent-tools-core/settings';
+import type { ToolCategory } from '@atmaticai/agent-tools-core/settings';
 import { allTools } from './tools';
 
 function getToolCategory(toolName: string): ToolCategory | null {

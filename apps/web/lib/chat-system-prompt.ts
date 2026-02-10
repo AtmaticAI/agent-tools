@@ -1,4 +1,4 @@
-import { allTools, type McpTool } from '@agent-tools/mcp-server';
+import { allTools, type McpTool } from '@atmaticai/agent-tools';
 
 const CATEGORIES: Record<string, string> = {
   json: 'JSON Studio',

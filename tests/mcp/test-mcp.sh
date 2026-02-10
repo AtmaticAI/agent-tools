@@ -292,7 +292,7 @@ main() {
     # Wait for MCP server
     if ! wait_for_server "$MCP_URL" 10; then
         print_skip "MCP server not available at $MCP_URL (skipping MCP tests)"
-        print_info "Start MCP server with: pnpm --filter @agent-tools/mcp-server dev"
+        print_info "Start MCP server with: pnpm --filter @atmaticai/agent-tools dev"
         return 0
     fi
 

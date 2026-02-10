@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { excel } from '@agent-tools/core';
+import { excel } from '@atmaticai/agent-tools-core';
 import { guardTool } from '@/lib/tool-guard';
 import { validateBase64File } from '@/lib/validate-file';
 
