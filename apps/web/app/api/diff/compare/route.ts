@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { diff } from '@agent-tools/core';
+import { diff } from '@atmaticai/agent-tools-core';
 import { guardTool } from '@/lib/tool-guard';
 
 export async function POST(request: NextRequest) {

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import type { ToolCategory, ToolSettings, SettingsRepository } from '@agent-tools/core/settings';
-import { SettingsService, ALL_TOOL_CATEGORIES, DEFAULT_SETTINGS } from '@agent-tools/core/settings';
+import type { ToolCategory, ToolSettings, SettingsRepository } from '@atmaticai/agent-tools-core/settings';
+import { SettingsService, ALL_TOOL_CATEGORIES, DEFAULT_SETTINGS } from '@atmaticai/agent-tools-core/settings';
 
 // ---------------------------------------------------------------------------
 // In-memory repository for testing (avoids filesystem I/O)
@@ -156,7 +156,7 @@ describe('SettingsService', () => {
 
 describe('guardTool', () => {
   // We test guardTool by mocking the settingsService module. The guard function
-  // imports settingsService from '@agent-tools/core/settings' and calls
+  // imports settingsService from '@atmaticai/agent-tools-core/settings' and calls
   // isToolEnabled. We mock the whole module to control the return value.
 
   beforeEach(() => {
@@ -164,7 +164,7 @@ describe('guardTool', () => {
   });
 
   it('should return null (allowed) when tool is enabled', async () => {
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: {
         isToolEnabled: vi.fn().mockResolvedValue(true),
       },
@@ -177,7 +177,7 @@ describe('guardTool', () => {
   });
 
   it('should return a 404 JSON response when tool is disabled', async () => {
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: {
         isToolEnabled: vi.fn().mockResolvedValue(false),
       },
@@ -195,7 +195,7 @@ describe('guardTool', () => {
   });
 
   it('should include the tool category name in the error message', async () => {
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: {
         isToolEnabled: vi.fn().mockResolvedValue(false),
       },
@@ -439,7 +439,7 @@ describe('API Route: /api/settings', () => {
   it('GET should return settings with all tools enabled by default', async () => {
     const inMemoryService = new SettingsService(new InMemorySettingsRepository());
 
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: inMemoryService,
     }));
 
@@ -459,7 +459,7 @@ describe('API Route: /api/settings', () => {
   it('PUT should update settings successfully', async () => {
     const inMemoryService = new SettingsService(new InMemorySettingsRepository());
 
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: inMemoryService,
     }));
 
@@ -484,7 +484,7 @@ describe('API Route: /api/settings', () => {
   it('PUT should return 400 when enabled object is missing', async () => {
     const inMemoryService = new SettingsService(new InMemorySettingsRepository());
 
-    vi.doMock('@agent-tools/core/settings', () => ({
+    vi.doMock('@atmaticai/agent-tools-core/settings', () => ({
       settingsService: inMemoryService,
     }));
 

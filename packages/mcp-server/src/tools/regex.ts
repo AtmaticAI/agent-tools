@@ -1,4 +1,4 @@
-import { regex } from '@agent-tools/core';
+import { regex } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const regexTools: McpTool[] = [

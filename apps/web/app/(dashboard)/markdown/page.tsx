@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as markdown from '@agent-tools/core/markdown';
+import * as markdown from '@atmaticai/agent-tools-core/markdown';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {

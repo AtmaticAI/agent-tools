@@ -1,4 +1,4 @@
-import { math } from '@agent-tools/core';
+import { math } from '@atmaticai/agent-tools-core';
 
 export const mathTools = [
   {

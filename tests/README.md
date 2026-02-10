@@ -295,8 +295,8 @@ curl http://localhost:3000/api/settings
 Start the respective servers:
 ```bash
 # MCP server
-pnpm --filter @agent-tools/mcp-server dev
+pnpm --filter @atmaticai/agent-tools dev
 
 # A2A agent
-pnpm --filter @agent-tools/a2a-agent dev
+pnpm --filter @atmaticai/agent-tools-a2a dev
 ```

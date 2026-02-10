@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import * as csv from '@agent-tools/core/csv';
-import type { Filter } from '@agent-tools/core/csv';
-import { filterData } from '@agent-tools/core/csv';
+import * as csv from '@atmaticai/agent-tools-core/csv';
+import type { Filter } from '@atmaticai/agent-tools-core/csv';
+import { filterData } from '@atmaticai/agent-tools-core/csv';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';

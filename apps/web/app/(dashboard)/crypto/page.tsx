@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as cryptoTools from '@agent-tools/core/crypto';
+import * as cryptoTools from '@atmaticai/agent-tools-core/crypto';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {

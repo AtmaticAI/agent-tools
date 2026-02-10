@@ -1,6 +1,6 @@
 'use client';
 
-import type { Filter, FilterOperator } from '@agent-tools/core/csv';
+import type { Filter, FilterOperator } from '@atmaticai/agent-tools-core/csv';
 import { Button } from '@/components/ui/button';
 import {
   Select,

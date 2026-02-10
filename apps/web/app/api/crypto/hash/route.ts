@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { crypto as cryptoTools } from '@agent-tools/core';
+import { crypto as cryptoTools } from '@atmaticai/agent-tools-core';
 import { guardTool } from '@/lib/tool-guard';
 
 export async function POST(request: NextRequest) {

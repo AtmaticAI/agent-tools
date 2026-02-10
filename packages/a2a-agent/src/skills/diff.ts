@@ -1,4 +1,4 @@
-import { diff } from '@agent-tools/core';
+import { diff } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const diffSkill: Skill = {

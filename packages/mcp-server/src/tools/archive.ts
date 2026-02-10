@@ -1,4 +1,4 @@
-import { archive } from '@agent-tools/core';
+import { archive } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const archiveTools: McpTool[] = [

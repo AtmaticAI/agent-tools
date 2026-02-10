@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { xml } from '@agent-tools/core';
+import { xml } from '@atmaticai/agent-tools-core';
 import { guardTool } from '@/lib/tool-guard';
 
 export async function POST(request: NextRequest) {

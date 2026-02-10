@@ -1,4 +1,4 @@
-import { diff } from '@agent-tools/core';
+import { diff } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const diffTools: McpTool[] = [

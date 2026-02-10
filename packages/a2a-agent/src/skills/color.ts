@@ -1,4 +1,4 @@
-import { color } from '@agent-tools/core';
+import { color } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const colorSkill: Skill = {

@@ -60,15 +60,15 @@ importers:
 
   apps/web:
     dependencies:
-      '@agent-tools/a2a-agent':
-        specifier: workspace:*
-        version: link:../../packages/a2a-agent
-      '@agent-tools/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@agent-tools/mcp-server':
+      '@atmaticai/agent-tools':
         specifier: workspace:*
         version: link:../../packages/mcp-server
+      '@atmaticai/agent-tools-a2a':
+        specifier: workspace:*
+        version: link:../../packages/a2a-agent
+      '@atmaticai/agent-tools-core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@next/third-parties':
         specifier: ^15.1.0
         version: 15.5.12(next@15.1.0(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -217,7 +217,7 @@ importers:
 
   packages/a2a-agent:
     dependencies:
-      '@agent-tools/core':
+      '@atmaticai/agent-tools-core':
         specifier: workspace:*
         version: link:../core
       uuid:
@@ -348,7 +348,7 @@ importers:
 
   packages/mcp-server:
     dependencies:
-      '@agent-tools/core':
+      '@atmaticai/agent-tools-core':
         specifier: workspace:*
         version: link:../core
       '@modelcontextprotocol/sdk':
@@ -841,7 +841,6 @@ packages:
   '@img/sharp-darwin-arm64@0.34.5':
     resolution: {integrity: sha512-imtQ3WMJXbMY4fxb/Ndp6HBTNVtWCUI0WdobyheGf5+ad6xX8VIDO8u2xE4qc/fr08CKG/7dDseFtn6M6g/r3w==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
-    cpu: [arm64]
     os: [darwin]
 
   '@img/sharp-darwin-x64@0.33.5':

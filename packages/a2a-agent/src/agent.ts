@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { settingsService } from '@agent-tools/core/settings';
-import type { ToolCategory } from '@agent-tools/core/settings';
+import { settingsService } from '@atmaticai/agent-tools-core/settings';
+import type { ToolCategory } from '@atmaticai/agent-tools-core/settings';
 import { skills, handleSkill } from './skills';
 import type {
   AgentCard,

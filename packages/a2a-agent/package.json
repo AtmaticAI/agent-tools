@@ -1,6 +1,6 @@
 {
-  "name": "@agent-tools/a2a-agent",
-  "version": "1.0.0",
+  "name": "@atmaticai/agent-tools-a2a",
+  "version": "1.0.1",
   "description": "A2A agent for Agent Tools data transformation tools",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -24,7 +24,7 @@
     "clean": "rm -rf dist .turbo"
   },
   "dependencies": {
-    "@agent-tools/core": "workspace:*",
+    "@atmaticai/agent-tools-core": "workspace:*",
     "uuid": "^11.0.0"
   },
   "devDependencies": {

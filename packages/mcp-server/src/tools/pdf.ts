@@ -1,4 +1,4 @@
-import { pdf } from '@agent-tools/core';
+import { pdf } from '@atmaticai/agent-tools-core';
 
 export const pdfTools = [
   {

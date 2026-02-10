@@ -1,4 +1,4 @@
-import { excel } from '@agent-tools/core';
+import { excel } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const excelTools: McpTool[] = [

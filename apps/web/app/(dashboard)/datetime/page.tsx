@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as datetime from '@agent-tools/core/datetime';
+import * as datetime from '@atmaticai/agent-tools-core/datetime';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {

@@ -1,4 +1,4 @@
-import { archive } from '@agent-tools/core';
+import { archive } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const archiveSkill: Skill = {

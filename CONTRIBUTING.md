@@ -101,7 +101,7 @@ agent-tools/
 pnpm test
 
 # Run specific package tests
-pnpm test --filter=@agent-tools/core
+pnpm test --filter=@atmaticai/agent-tools-core
 
 # Run with coverage
 pnpm test -- --coverage

@@ -1,4 +1,4 @@
-import { markdown } from '@agent-tools/core';
+import { markdown } from '@atmaticai/agent-tools-core';
 import type { Skill, TaskInput, Part } from '../types';
 
 export const markdownSkill: Skill = {

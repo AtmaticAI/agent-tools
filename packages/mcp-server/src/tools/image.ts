@@ -1,4 +1,4 @@
-import { image } from '@agent-tools/core';
+import { image } from '@atmaticai/agent-tools-core';
 import type { McpTool } from './index';
 
 export const imageTools: McpTool[] = [

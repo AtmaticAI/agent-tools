@@ -41,7 +41,7 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm build --filter=@agent-tools/core --filter=@agent-tools/mcp-server --filter=@agent-tools/a2a-agent
+      - run: pnpm build --filter=@atmaticai/agent-tools-core --filter=@atmaticai/agent-tools --filter=@atmaticai/agent-tools-a2a
       - run: pnpm typecheck
 
   test:

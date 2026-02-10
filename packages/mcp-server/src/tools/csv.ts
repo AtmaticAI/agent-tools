@@ -1,4 +1,4 @@
-import { csv } from '@agent-tools/core';
+import { csv } from '@atmaticai/agent-tools-core';
 
 export const csvTools = [
   {
