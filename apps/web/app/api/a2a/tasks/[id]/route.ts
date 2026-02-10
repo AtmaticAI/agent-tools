@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getTask, cancelTask } from '@atmaticai/agent-tools-a2a';
+import { getTask, cancelTask } from '@atmaticai/agent-tools/a2a';
 
 export async function GET(
   _request: NextRequest,

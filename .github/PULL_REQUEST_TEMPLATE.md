@@ -12,9 +12,7 @@
 
 ## Component
 
-- [ ] Core Library (`packages/core`)
-- [ ] MCP Server (`packages/mcp-server`)
-- [ ] A2A Agent (`packages/a2a-agent`)
+- [ ] Agent Tools (`packages/agent-tools`)
 - [ ] Web UI (`apps/web`)
 - [ ] Infrastructure (Docker/K8s/Terraform)
 - [ ] CI/CD

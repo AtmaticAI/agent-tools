@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as sql from '@atmaticai/agent-tools-core/sql';
+import * as sql from '@atmaticai/agent-tools/sql';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {

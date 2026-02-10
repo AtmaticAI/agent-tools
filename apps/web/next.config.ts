@@ -2,7 +2,7 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'standalone',
-  transpilePackages: ['@atmaticai/agent-tools-core', '@atmaticai/agent-tools-a2a', '@atmaticai/agent-tools'],
+  transpilePackages: ['@atmaticai/agent-tools'],
   serverExternalPackages: [
     'sharp',
     'pino',

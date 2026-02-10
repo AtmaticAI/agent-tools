@@ -298,5 +298,5 @@ Start the respective servers:
 pnpm --filter @atmaticai/agent-tools dev
 
 # A2A agent
-pnpm --filter @atmaticai/agent-tools-a2a dev
+pnpm --filter @atmaticai/agent-tools/a2a dev
 ```

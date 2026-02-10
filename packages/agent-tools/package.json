@@ -1,0 +1,188 @@
+{
+  "name": "@atmaticai/agent-tools",
+  "version": "1.1.0",
+  "description": "Deterministic data transformation tools with MCP server and A2A agent support",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "agent-tools-mcp": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./json": {
+      "types": "./dist/json/index.d.ts",
+      "import": "./dist/json/index.mjs",
+      "require": "./dist/json/index.js"
+    },
+    "./csv": {
+      "types": "./dist/csv/index.d.ts",
+      "import": "./dist/csv/index.mjs",
+      "require": "./dist/csv/index.js"
+    },
+    "./pdf": {
+      "types": "./dist/pdf/index.d.ts",
+      "import": "./dist/pdf/index.mjs",
+      "require": "./dist/pdf/index.js"
+    },
+    "./xml": {
+      "types": "./dist/xml/index.d.ts",
+      "import": "./dist/xml/index.mjs",
+      "require": "./dist/xml/index.js"
+    },
+    "./excel": {
+      "types": "./dist/excel/index.d.ts",
+      "import": "./dist/excel/index.mjs",
+      "require": "./dist/excel/index.js"
+    },
+    "./image": {
+      "types": "./dist/image/index.d.ts",
+      "import": "./dist/image/index.mjs",
+      "require": "./dist/image/index.js"
+    },
+    "./markdown": {
+      "types": "./dist/markdown/index.d.ts",
+      "import": "./dist/markdown/index.mjs",
+      "require": "./dist/markdown/index.js"
+    },
+    "./archive": {
+      "types": "./dist/archive/index.d.ts",
+      "import": "./dist/archive/index.mjs",
+      "require": "./dist/archive/index.js"
+    },
+    "./regex": {
+      "types": "./dist/regex/index.d.ts",
+      "import": "./dist/regex/index.mjs",
+      "require": "./dist/regex/index.js"
+    },
+    "./diff": {
+      "types": "./dist/diff/index.d.ts",
+      "import": "./dist/diff/index.mjs",
+      "require": "./dist/diff/index.js"
+    },
+    "./sql": {
+      "types": "./dist/sql/index.d.ts",
+      "import": "./dist/sql/index.mjs",
+      "require": "./dist/sql/index.js"
+    },
+    "./crypto": {
+      "types": "./dist/crypto/index.d.ts",
+      "import": "./dist/crypto/index.mjs",
+      "require": "./dist/crypto/index.js"
+    },
+    "./datetime": {
+      "types": "./dist/datetime/index.d.ts",
+      "import": "./dist/datetime/index.mjs",
+      "require": "./dist/datetime/index.js"
+    },
+    "./text": {
+      "types": "./dist/text/index.d.ts",
+      "import": "./dist/text/index.mjs",
+      "require": "./dist/text/index.js"
+    },
+    "./math": {
+      "types": "./dist/math/index.d.ts",
+      "import": "./dist/math/index.mjs",
+      "require": "./dist/math/index.js"
+    },
+    "./color": {
+      "types": "./dist/color/index.d.ts",
+      "import": "./dist/color/index.mjs",
+      "require": "./dist/color/index.js"
+    },
+    "./physics": {
+      "types": "./dist/physics/index.d.ts",
+      "import": "./dist/physics/index.mjs",
+      "require": "./dist/physics/index.js"
+    },
+    "./structural": {
+      "types": "./dist/structural/index.d.ts",
+      "import": "./dist/structural/index.mjs",
+      "require": "./dist/structural/index.js"
+    },
+    "./settings": {
+      "types": "./dist/settings/index.d.ts",
+      "import": "./dist/settings/index.mjs",
+      "require": "./dist/settings/index.js"
+    },
+    "./a2a": {
+      "types": "./dist/a2a/index.d.ts",
+      "import": "./dist/a2a/index.mjs",
+      "require": "./dist/a2a/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "node dist/cli.js",
+    "start:stdio": "node dist/cli.js --transport stdio",
+    "start:sse": "node dist/cli.js --transport sse",
+    "start:http": "node dist/cli.js --transport http",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "adm-zip": "^0.5.0",
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.0",
+    "archiver": "^7.0.0",
+    "commander": "^12.0.0",
+    "diff": "^7.0.0",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.0",
+    "fast-json-patch": "^3.1.0",
+    "fast-xml-parser": "^4.5.0",
+    "jmespath": "^0.16.0",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.0",
+    "jsonpath-plus": "^10.0.0",
+    "luxon": "^3.5.0",
+    "marked": "^15.0.0",
+    "node-sql-parser": "^5.3.0",
+    "papaparse": "^5.4.0",
+    "pdf-lib": "^1.17.0",
+    "pdf-parse": "^1.1.0",
+    "sharp": "^0.33.5",
+    "smol-toml": "^1.3.0",
+    "sql-formatter": "^15.0.0",
+    "toml": "^3.0.0",
+    "turndown": "^7.2.0",
+    "uuid": "^11.0.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.0",
+    "@types/archiver": "^6.0.0",
+    "@types/diff": "^6.0.0",
+    "@types/express": "^5.0.0",
+    "@types/jmespath": "^0.15.0",
+    "@types/js-yaml": "^4.0.0",
+    "@types/luxon": "^3.4.0",
+    "@types/papaparse": "^5.3.0",
+    "@types/turndown": "^5.0.0",
+    "@types/uuid": "^10.0.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "a2a",
+    "agent-tools",
+    "json",
+    "csv",
+    "pdf",
+    "data-transformation"
+  ]
+}

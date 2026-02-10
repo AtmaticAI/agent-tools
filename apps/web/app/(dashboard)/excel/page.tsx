@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as excel from '@atmaticai/agent-tools-core/excel';
+import * as excel from '@atmaticai/agent-tools/excel';
 import { Button } from '@/components/ui/button';
 import {
   Card,

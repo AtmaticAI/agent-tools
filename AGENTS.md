@@ -24,9 +24,9 @@ pnpm build:mcp            # Build MCP server only
 
 # Testing
 pnpm test                 # Run all tests (vitest)
-pnpm --filter @atmaticai/agent-tools-core test           # Run core package tests only
+pnpm --filter @atmaticai/agent-tools test           # Run core package tests only
 pnpm --filter @atmaticai/agent-tools test     # Run MCP server tests only
-cd packages/core && pnpm test:watch         # Watch mode for a specific package
+cd packages/agent-tools && pnpm test:watch         # Watch mode for a specific package
 
 # Code Quality
 pnpm lint                 # ESLint across all packages
@@ -44,12 +44,12 @@ pnpm format:check         # Verify formatting
 │  UI Layer (apps/web)                                        │
 │  Next.js 15 App Router, React 19, shadcn/ui, Zustand        │
 ├─────────────────────────────────────────────────────────────┤
-│  Protocol Layer                                             │
-│  ├── packages/mcp-server (MCP SDK, stdio/sse/http)          │
-│  ├── packages/a2a-agent (Agent-to-Agent protocol)           │
+│  packages/agent-tools                                       │
+│  ├── MCP server (stdio/sse/http)                            │
+│  ├── A2A agent (Agent-to-Agent protocol)                    │
 │  └── apps/web/app/api/* (REST endpoints)                    │
 ├─────────────────────────────────────────────────────────────┤
-│  Core Layer (packages/core)                                 │
+│  Core Layer (packages/agent-tools/src/*)                    │
 │  Business logic: json/, csv/, pdf/, xml/, excel/, image/,   │
 │  markdown/, archive/, regex/, diff/, sql/, crypto/,         │
 │  datetime/, text/, math/, color/, physics/, structural/     │
@@ -58,37 +58,37 @@ pnpm format:check         # Verify formatting
 
 ### Package Dependencies
 
-- `@atmaticai/agent-tools-core` - Standalone, no internal dependencies
-- `@atmaticai/agent-tools` - Depends on `@atmaticai/agent-tools-core`
-- `@atmaticai/agent-tools-a2a` - Depends on `@atmaticai/agent-tools-core`
-- `@atmaticai/agent-tools-web` - Depends on `@atmaticai/agent-tools-core` and `@atmaticai/agent-tools-a2a`
+- `@atmaticai/agent-tools` - Standalone, no internal dependencies
+- `@atmaticai/agent-tools` - Depends on `@atmaticai/agent-tools`
+- `@atmaticai/agent-tools/a2a` - Depends on `@atmaticai/agent-tools`
+- `@atmaticai/agent-tools-web` - Depends on `@atmaticai/agent-tools` and `@atmaticai/agent-tools/a2a`
 
 ### Core Modules
 
 | Module | Path | Key Dependencies |
 |--------|------|-----------------|
-| JSON | `packages/core/src/json/` | json5, yaml, smol-toml, jsonpath-plus, jmespath |
-| CSV | `packages/core/src/csv/` | papaparse |
-| PDF | `packages/core/src/pdf/` | pdf-lib, pdf-parse |
-| XML | `packages/core/src/xml/` | fast-xml-parser |
-| Excel | `packages/core/src/excel/` | exceljs |
-| Image | `packages/core/src/image/` | sharp |
-| Markdown | `packages/core/src/markdown/` | marked, turndown |
-| Archive | `packages/core/src/archive/` | archiver, adm-zip |
-| Regex | `packages/core/src/regex/` | (built-in) |
-| Diff | `packages/core/src/diff/` | diff |
-| SQL | `packages/core/src/sql/` | sql-formatter, node-sql-parser |
-| Crypto | `packages/core/src/crypto/` | (Node.js crypto) |
-| DateTime | `packages/core/src/datetime/` | luxon |
-| Text | `packages/core/src/text/` | (built-in) |
-| Math | `packages/core/src/math/` | (built-in) |
-| Color | `packages/core/src/color/` | (built-in) |
-| Physics | `packages/core/src/physics/` | (built-in) |
-| Structural | `packages/core/src/structural/` | (built-in) |
+| JSON | `packages/agent-tools/src/json/` | json5, yaml, smol-toml, jsonpath-plus, jmespath |
+| CSV | `packages/agent-tools/src/csv/` | papaparse |
+| PDF | `packages/agent-tools/src/pdf/` | pdf-lib, pdf-parse |
+| XML | `packages/agent-tools/src/xml/` | fast-xml-parser |
+| Excel | `packages/agent-tools/src/excel/` | exceljs |
+| Image | `packages/agent-tools/src/image/` | sharp |
+| Markdown | `packages/agent-tools/src/markdown/` | marked, turndown |
+| Archive | `packages/agent-tools/src/archive/` | archiver, adm-zip |
+| Regex | `packages/agent-tools/src/regex/` | (built-in) |
+| Diff | `packages/agent-tools/src/diff/` | diff |
+| SQL | `packages/agent-tools/src/sql/` | sql-formatter, node-sql-parser |
+| Crypto | `packages/agent-tools/src/crypto/` | (Node.js crypto) |
+| DateTime | `packages/agent-tools/src/datetime/` | luxon |
+| Text | `packages/agent-tools/src/text/` | (built-in) |
+| Math | `packages/agent-tools/src/math/` | (built-in) |
+| Color | `packages/agent-tools/src/color/` | (built-in) |
+| Physics | `packages/agent-tools/src/physics/` | (built-in) |
+| Structural | `packages/agent-tools/src/structural/` | (built-in) |
 
 ### Core Module Structure
 
-Each module in `packages/core/src/` follows a consistent pattern:
+Each module in `packages/agent-tools/src/` follows a consistent pattern:
 - `types.ts` - TypeScript types and interfaces
 - `parse.ts` / `format.ts` - Input processing
 - `transform.ts` - Data manipulation
@@ -98,10 +98,10 @@ Each module in `packages/core/src/` follows a consistent pattern:
 
 ### Adding New Functionality
 
-1. Implement in `packages/core/src/{module}/`
-2. Add subpath export in `packages/core/package.json` and entry point in `tsup.config.ts`
-3. Expose as MCP tool in `packages/mcp-server/src/tools/`
-4. Expose as A2A skill in `packages/a2a-agent/src/skills/`
+1. Implement in `packages/agent-tools/src/{module}/`
+2. Add subpath export in `packages/agent-tools/package.json` and entry point in `tsup.config.ts`
+3. Expose as MCP tool in `packages/agent-tools/src/tools/`
+4. Expose as A2A skill in `packages/agent-tools/src/a2a/skills/`
 5. Add REST route in `apps/web/app/api/{module}/`
 6. Build UI page in `apps/web/app/(dashboard)/{module}/page.tsx`
 7. Add sidebar navigation entry in `apps/web/components/layout/sidebar.tsx`
@@ -187,12 +187,12 @@ Tool categories (all 18) are configured at runtime via the Settings page (`/sett
 ## Key Files
 
 - `turbo.json` - Build pipeline and task dependencies
-- `packages/core/src/index.ts` - Core exports (all 18 modules)
-- `packages/core/tsup.config.ts` - Build entry points per module
-- `packages/mcp-server/src/server.ts` - MCP protocol handler
-- `packages/mcp-server/src/tools/index.ts` - All MCP tool registrations
-- `packages/a2a-agent/src/agent.ts` - A2A implementation
-- `packages/a2a-agent/src/skills/index.ts` - All A2A skill registrations
+- `packages/agent-tools/src/index.ts` - Core exports (all 18 modules)
+- `packages/agent-tools/tsup.config.ts` - Build entry points per module
+- `packages/agent-tools/src/server.ts` - MCP protocol handler
+- `packages/agent-tools/src/tools/index.ts` - All MCP tool registrations
+- `packages/agent-tools/src/a2a/agent.ts` - A2A implementation
+- `packages/agent-tools/src/a2a/skills/index.ts` - All A2A skill registrations
 - `apps/web/app/layout.tsx` - Root layout
 - `apps/web/components/layout/sidebar.tsx` - Navigation sidebar
 - `apps/web/app/(dashboard)/chat/page.tsx` - AI Chat interface page

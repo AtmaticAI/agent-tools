@@ -1,4 +1,4 @@
-import type { ParseResult } from '@atmaticai/agent-tools-core/csv';
+import type { ParseResult } from '@atmaticai/agent-tools/csv';
 
 /**
  * Export data to Excel (.xlsx) format

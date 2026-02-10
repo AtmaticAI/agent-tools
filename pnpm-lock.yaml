@@ -62,13 +62,7 @@ importers:
     dependencies:
       '@atmaticai/agent-tools':
         specifier: workspace:*
-        version: link:../../packages/mcp-server
-      '@atmaticai/agent-tools-a2a':
-        specifier: workspace:*
-        version: link:../../packages/a2a-agent
-      '@atmaticai/agent-tools-core':
-        specifier: workspace:*
-        version: link:../../packages/core
+        version: link:../../packages/agent-tools
       '@next/third-parties':
         specifier: ^15.1.0
         version: 15.5.12(next@15.1.0(@opentelemetry/api@1.9.0)(@playwright/test@1.58.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -215,33 +209,11 @@ importers:
         specifier: ^3.2.0
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.8)
 
-  packages/a2a-agent:
+  packages/agent-tools:
     dependencies:
-      '@atmaticai/agent-tools-core':
-        specifier: workspace:*
-        version: link:../core
-      uuid:
-        specifier: ^11.0.0
-        version: 11.1.0
-    devDependencies:
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      pdf-lib:
-        specifier: ^1.17.0
-        version: 1.17.1
-      tsup:
-        specifier: ^8.3.0
-        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.7.0
-        version: 5.9.3
-      vitest:
-        specifier: ^3.2.0
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.8)
-
-  packages/core:
-    dependencies:
+      '@modelcontextprotocol/sdk':
+        specifier: ^1.0.0
+        version: 1.25.3(hono@4.11.7)(zod@3.25.76)
       adm-zip:
         specifier: ^0.5.0
         version: 0.5.16
@@ -254,12 +226,18 @@ importers:
       archiver:
         specifier: ^7.0.0
         version: 7.0.1
+      commander:
+        specifier: ^12.0.0
+        version: 12.1.0
       diff:
         specifier: ^7.0.0
         version: 7.0.0
       exceljs:
         specifier: ^4.4.0
         version: 4.4.0
+      express:
+        specifier: ^4.21.0
+        version: 4.22.1
       fast-json-patch:
         specifier: ^3.1.0
         version: 3.1.1
@@ -311,6 +289,12 @@ importers:
       turndown:
         specifier: ^7.2.0
         version: 7.2.2
+      uuid:
+        specifier: ^11.0.0
+        version: 11.1.0
+      zod:
+        specifier: ^3.24.0
+        version: 3.25.76
     devDependencies:
       '@types/adm-zip':
         specifier: ^0.5.0
@@ -321,6 +305,9 @@ importers:
       '@types/diff':
         specifier: ^6.0.0
         version: 6.0.0
+      '@types/express':
+        specifier: ^5.0.0
+        version: 5.0.6
       '@types/jmespath':
         specifier: ^0.15.0
         version: 0.15.2
@@ -336,40 +323,9 @@ importers:
       '@types/turndown':
         specifier: ^5.0.0
         version: 5.0.6
-      tsup:
-        specifier: ^8.3.0
-        version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
-      typescript:
-        specifier: ^5.7.0
-        version: 5.9.3
-      vitest:
-        specifier: ^3.2.0
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.8)
-
-  packages/mcp-server:
-    dependencies:
-      '@atmaticai/agent-tools-core':
-        specifier: workspace:*
-        version: link:../core
-      '@modelcontextprotocol/sdk':
-        specifier: ^1.0.0
-        version: 1.25.3(hono@4.11.7)(zod@3.25.76)
-      commander:
-        specifier: ^12.0.0
-        version: 12.1.0
-      express:
-        specifier: ^4.21.0
-        version: 4.22.1
-      zod:
-        specifier: ^3.24.0
-        version: 3.25.76
-    devDependencies:
-      '@types/express':
-        specifier: ^5.0.0
-        version: 5.0.6
-      pdf-lib:
-        specifier: ^1.17.0
-        version: 1.17.1
+      '@types/uuid':
+        specifier: ^10.0.0
+        version: 10.0.0
       tsup:
         specifier: ^8.3.0
         version: 8.5.1(jiti@1.21.7)(postcss@8.5.6)(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as xml from '@atmaticai/agent-tools-core/xml';
+import * as xml from '@atmaticai/agent-tools/xml';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {

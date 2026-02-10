@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createTask, listTasks } from '@atmaticai/agent-tools-a2a';
+import { createTask, listTasks } from '@atmaticai/agent-tools/a2a';
 
 export async function GET() {
   const tasks = listTasks();

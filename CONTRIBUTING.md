@@ -80,16 +80,14 @@ docs(readme): update MCP configuration
 ```
 agent-tools/
 ├── apps/web/           # Next.js application
-├── packages/core/      # Shared business logic
-├── packages/mcp-server/ # MCP server
-└── packages/a2a-agent/ # A2A agent
+└── packages/agent-tools/      # Core logic, MCP server, and A2A agent
 ```
 
 ### Adding a New Tool
 
-1. Add core logic in `packages/core/`
-2. Add MCP tool in `packages/mcp-server/src/tools/`
-3. Add A2A skill in `packages/a2a-agent/src/skills/`
+1. Add core logic in `packages/agent-tools/src/<module>/`
+2. Add MCP tool in `packages/agent-tools/src/tools/`
+3. Add A2A skill in `packages/agent-tools/src/a2a/skills/`
 4. Add API route in `apps/web/app/api/`
 5. Add UI in `apps/web/app/(dashboard)/`
 6. Add tests
@@ -101,7 +99,7 @@ agent-tools/
 pnpm test
 
 # Run specific package tests
-pnpm test --filter=@atmaticai/agent-tools-core
+pnpm test --filter=@atmaticai/agent-tools
 
 # Run with coverage
 pnpm test -- --coverage
