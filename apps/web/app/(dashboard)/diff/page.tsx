@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as diff from '@atmaticai/agent-tools-core/diff';
+import * as diff from '@atmaticai/agent-tools/diff';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {

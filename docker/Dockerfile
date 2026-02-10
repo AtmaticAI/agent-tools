@@ -9,9 +9,7 @@ RUN npm install -g pnpm@9.15.0
 # Copy package files
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
 COPY apps/web/package.json ./apps/web/
-COPY packages/core/package.json ./packages/core/
-COPY packages/mcp-server/package.json ./packages/mcp-server/
-COPY packages/a2a-agent/package.json ./packages/a2a-agent/
+COPY packages/agent-tools/package.json ./packages/agent-tools/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile

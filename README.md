@@ -8,7 +8,7 @@ An open source project by [atmatic.ai](https://atmatic.ai/tools)
 [![CodeQL](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml/badge.svg)](https://github.com/AtmaticAI/agent-tools/actions/workflows/codeql.yml)
 [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![npm](https://img.shields.io/npm/v/@atmaticai/agent-tools.svg)](https://www.npmjs.com/package/@atmaticai/agent-tools)
-[![npm core](https://img.shields.io/npm/v/@atmaticai/agent-tools-core.svg?label=npm%20core)](https://www.npmjs.com/package/@atmaticai/agent-tools-core)
+[![npm core](https://img.shields.io/npm/v/@atmaticai/agent-tools.svg?label=npm%20core)](https://www.npmjs.com/package/@atmaticai/agent-tools)
 [![GitHub release](https://img.shields.io/github/v/release/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/releases)
 [![GitHub issues](https://img.shields.io/github/issues/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/AtmaticAI/agent-tools)](https://github.com/AtmaticAI/agent-tools/pulls)
@@ -462,14 +462,14 @@ curl -X POST /api/regex/test \
 Agent Tools is published on npm under two packages:
 
 - **[`@atmaticai/agent-tools`](https://www.npmjs.com/package/@atmaticai/agent-tools)** — MCP server with all 136+ tools (run as CLI or integrate with Claude Desktop)
-- **[`@atmaticai/agent-tools-core`](https://www.npmjs.com/package/@atmaticai/agent-tools-core)** — Core library with all 18 tool modules (use programmatically in your own projects)
+- **[`@atmaticai/agent-tools`](https://www.npmjs.com/package/@atmaticai/agent-tools)** — Core library with all 18 tool modules (use programmatically in your own projects)
 
 ```bash
 # MCP server (CLI + all tools)
 npm install @atmaticai/agent-tools
 
 # Core library only (programmatic usage)
-npm install @atmaticai/agent-tools-core
+npm install @atmaticai/agent-tools
 ```
 
 ### Prerequisites
@@ -898,7 +898,7 @@ Apache 2.0 License - see [LICENSE](./LICENSE) for details.
 ## Links
 
 - **npm (MCP Server)**: [@atmaticai/agent-tools](https://www.npmjs.com/package/@atmaticai/agent-tools)
-- **npm (Core Library)**: [@atmaticai/agent-tools-core](https://www.npmjs.com/package/@atmaticai/agent-tools-core)
+- **npm (Core Library)**: [@atmaticai/agent-tools](https://www.npmjs.com/package/@atmaticai/agent-tools)
 - **Live Demo**: [tools.atmatic.ai](https://tools.atmatic.ai)
 - **Repository**: [github.com/AtmaticAI/agent-tools](https://github.com/AtmaticAI/agent-tools)
 - **Organization**: [atmatic.ai](https://atmatic.ai)

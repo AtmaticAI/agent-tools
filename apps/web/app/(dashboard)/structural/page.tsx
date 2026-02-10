@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import * as structural from '@atmaticai/agent-tools-core/structural';
+import * as structural from '@atmaticai/agent-tools/structural';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';

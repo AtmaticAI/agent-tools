@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { allTools } from '@atmaticai/agent-tools';
-import { settingsService } from '@atmaticai/agent-tools-core/settings';
-import type { ToolCategory } from '@atmaticai/agent-tools-core/settings';
+import { settingsService } from '@atmaticai/agent-tools/settings';
+import type { ToolCategory } from '@atmaticai/agent-tools/settings';
 
 interface JsonRpcRequest {
   jsonrpc: '2.0';

@@ -19,9 +19,9 @@ You should receive a response within 48 hours. We will work with you to understa
 ## Scope
 
 This policy applies to:
-- `@atmaticai/agent-tools-core`
 - `@atmaticai/agent-tools`
-- `@atmaticai/agent-tools-a2a`
+- `@atmaticai/agent-tools`
+- `@atmaticai/agent-tools/a2a`
 - `@atmaticai/agent-tools-web`
 - Docker images published to `ghcr.io/AtmaticAI/agent-tools`
 

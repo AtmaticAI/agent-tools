@@ -8,17 +8,15 @@ RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
 
 # Copy package files
 COPY package.json pnpm-workspace.yaml ./
-COPY packages/core/package.json ./packages/core/
-COPY packages/mcp-server/package.json ./packages/mcp-server/
+COPY packages/agent-tools/package.json ./packages/agent-tools/
 
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
 # Copy source and build
-COPY packages/core ./packages/core
-COPY packages/mcp-server ./packages/mcp-server
+COPY packages/agent-tools ./packages/agent-tools
 
-RUN pnpm build --filter=@atmaticai/agent-tools-core --filter=@atmaticai/agent-tools
+RUN pnpm build --filter=@atmaticai/agent-tools
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs
@@ -31,4 +29,4 @@ ENV NODE_ENV=production
 ENV MCP_PORT=3001
 ENV MCP_TRANSPORT=http
 
-CMD ["node", "packages/mcp-server/dist/cli.js", "--transport", "http", "--port", "3001"]
+CMD ["node", "packages/agent-tools/dist/cli.js", "--transport", "http", "--port", "3001"]

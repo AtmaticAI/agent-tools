@@ -818,9 +818,11 @@ describe('Instrumented Chat API Route (api/chat/route.ts)', () => {
     vi.stubGlobal('fetch', mockFetch);
 
     vi.doMock('@/lib/chat-tool-executor', () => ({
-      parseToolCalls: vi.fn().mockReturnValue([
-        { tool: 'agent_tools_json_format', arguments: { input: '{}' } },
-      ]),
+      parseToolCalls: vi.fn()
+        .mockReturnValueOnce([
+          { tool: 'agent_tools_json_format', arguments: { input: '{}' } },
+        ])
+        .mockReturnValue([]),
       executeToolCalls: vi.fn().mockResolvedValue([
         { tool: 'agent_tools_json_format', success: true, result: '{}' },
       ]),

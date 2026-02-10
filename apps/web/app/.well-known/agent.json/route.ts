@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAgentCard } from '@atmaticai/agent-tools-a2a';
+import { getAgentCard } from '@atmaticai/agent-tools/a2a';
 
 export async function GET(request: NextRequest) {
   const url = new URL(request.url);
