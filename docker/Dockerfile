@@ -19,6 +19,10 @@ RUN pnpm install --frozen-lockfile
 # Copy source code
 COPY . .
 
+# Build-time env vars (Next.js inlines NEXT_PUBLIC_* at build time)
+ARG NEXT_PUBLIC_GA_ID
+ENV NEXT_PUBLIC_GA_ID=${NEXT_PUBLIC_GA_ID}
+
 # Build packages
 RUN pnpm build
 
