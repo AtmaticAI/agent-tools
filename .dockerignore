@@ -1,0 +1,16 @@
+node_modules
+.git
+.next
+dist
+.turbo
+.env*
+*.md
+!README.md
+screenshots
+tests
+terraform
+scripts
+.husky
+.github
+.changeset
+.vscode
