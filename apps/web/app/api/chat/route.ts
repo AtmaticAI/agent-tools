@@ -31,11 +31,15 @@ function truncate(str: string, max = MAX_LOG_CONTENT): string {
   return str.length > max ? str.slice(0, max) + '...[truncated]' : str;
 }
 
+const MAX_RETRIES = 3;
+const RETRY_BASE_MS = 1000;
+
 async function callLLM(
   messages: { role: string; content: string }[],
   model: string,
   parentSpan?: Span
 ): Promise<{ content: string; usage?: { prompt_tokens?: number; completion_tokens?: number; total_tokens?: number } }> {
+  const log = getLogger('chat');
   const hfToken = process.env.HF_TOKEN;
   if (!hfToken) {
     throw new Error('AI_NOT_CONFIGURED');
@@ -47,44 +51,67 @@ async function callLLM(
       'llm.message_count': messages.length,
     });
 
-    const response = await fetch(HF_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${hfToken}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        max_tokens: 2048,
-        temperature: 0.7,
-      }),
-    });
+    let lastError: Error | undefined;
 
-    span?.setAttribute('llm.response_status', response.status);
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      try {
+        const response = await fetch(HF_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${hfToken}`,
+          },
+          body: JSON.stringify({
+            model,
+            messages,
+            max_tokens: 2048,
+            temperature: 0.7,
+          }),
+        });
 
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => 'Unknown error');
-      if (response.status === 402 || response.status === 429) {
-        throw new Error('CREDITS_EXHAUSTED');
+        span?.setAttribute('llm.response_status', response.status);
+
+        if (!response.ok) {
+          const errorText = await response.text().catch(() => 'Unknown error');
+          if (response.status === 402 || response.status === 429) {
+            throw new Error('CREDITS_EXHAUSTED');
+          }
+          throw new Error(`HF API error (${response.status}): ${errorText}`);
+        }
+
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content ?? '';
+        const usage = data.usage;
+
+        if (usage && span) {
+          span.setAttributes({
+            'llm.usage.prompt_tokens': usage.prompt_tokens ?? 0,
+            'llm.usage.completion_tokens': usage.completion_tokens ?? 0,
+            'llm.usage.total_tokens': usage.total_tokens ?? 0,
+          });
+        }
+
+        span?.setStatus({ code: SpanStatusCode.OK });
+        if (attempt > 0) {
+          log.info({ event: 'chat.retry_succeeded', attempt: attempt + 1 });
+        }
+        return { content, usage };
+      } catch (e) {
+        lastError = e as Error;
+        // Don't retry non-transient errors
+        if (lastError.message === 'AI_NOT_CONFIGURED' || lastError.message === 'CREDITS_EXHAUSTED') {
+          throw lastError;
+        }
+        if (attempt < MAX_RETRIES - 1) {
+          const delay = RETRY_BASE_MS * Math.pow(2, attempt); // 1s, 2s, 4s
+          log.warn({ event: 'chat.retry', attempt: attempt + 1, delay, error: lastError.message });
+          span?.addEvent('llm.retry', { attempt: attempt + 1, delay, error: lastError.message });
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
       }
-      throw new Error(`HF API error (${response.status}): ${errorText}`);
     }
 
-    const data = await response.json();
-    const content = data.choices?.[0]?.message?.content ?? '';
-    const usage = data.usage;
-
-    if (usage && span) {
-      span.setAttributes({
-        'llm.usage.prompt_tokens': usage.prompt_tokens ?? 0,
-        'llm.usage.completion_tokens': usage.completion_tokens ?? 0,
-        'llm.usage.total_tokens': usage.total_tokens ?? 0,
-      });
-    }
-
-    span?.setStatus({ code: SpanStatusCode.OK });
-    return { content, usage };
+    throw lastError!;
   };
 
   if (parentSpan) {

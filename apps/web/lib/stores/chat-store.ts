@@ -127,6 +127,8 @@ export const useChatStore = create<ChatState>()(
             ...state.enabledCategories,
             [category]: !state.enabledCategories[category],
           },
+          messages: [],
+          isLoading: false,
         })),
 
       setAllCategories: (enabled) =>
@@ -134,6 +136,8 @@ export const useChatStore = create<ChatState>()(
           enabledCategories: Object.fromEntries(
             Object.keys(ALL_CATEGORIES).map((k) => [k, enabled])
           ),
+          messages: [],
+          isLoading: false,
         })),
 
       setModel: (model) => set({ selectedModel: model }),
